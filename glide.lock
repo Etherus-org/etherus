@@ -1,5 +1,5 @@
-hash: 4e3ecfc568323e46964ba1621a02e7368e98f281362a0617c88561463c4d96a8
-updated: 2018-01-23T10:54:58.741883+08:00
+hash: 00c6903e720044496bcd72b4d90e471380e493c0c35b416e4c33a5866f1ef11d
+updated: 2018-08-02T00:09:27.2860437+03:00
 imports:
 - name: github.com/aristanetworks/goarista
   version: 2d3d1ed9a5957e7e68da33b72aca1cbe4f1b6878
@@ -180,32 +180,34 @@ imports:
   - leveldb/storage
   - leveldb/table
   - leveldb/util
-- name: github.com/tendermint/abci
-  version: 5d5ea6869b91cadb55dbc4211ad7b326f053a33e
+- name: github.com/ya-enot/abci
+  version: 61321a049a951dadd9d0aab14a8197764fd5fd51
   subpackages:
   - client
   - example/code
   - example/dummy
   - server
   - types
+- name: github.com/ya-enot/cosmos-sdk
+  version: b919649ffa372cfcfd07bfdeeb4d1e613e7b6175
+  subpackages:
+  - errors
 - name: github.com/tendermint/ed25519
   version: d8387025d2b9d158cf4efb07e7ebf814bcce2057
   subpackages:
   - edwards25519
   - extra25519
-- name: github.com/tendermint/go-crypto
-  version: dd20358a264c772b4a83e477b0cfce4c88a7001d
-  subpackages:
-  - keys
-- name: github.com/tendermint/go-wire
-  version: b6fc872b42d41158a60307db4da051dd6f179415
+- name: github.com/ya-enot/go-crypto
+  version: d59e74f04fc5695706d845e2460af87ea889b76f
+- name: github.com/ya-enot/go-wire
+  version: 29512e9e33cbac8cfe44e73cb6092e98d2fa7c80
   subpackages:
   - data
   - nowriter/tmlegacy
-- name: github.com/tendermint/iavl
-  version: 594cc0c062a7174475f0ab654384038d77067917
-- name: github.com/tendermint/tendermint
-  version: 381fe19335ba8825e04d1d0fefa5cac709bb7178
+- name: github.com/ya-enot/iavl
+  version: 184654dc00d909a1172ed733cd2dc60fc7b981d7
+- name: github.com/ya-enot/tendermint
+  version: 1e00a63435f4bcaf06075e5d17818002dc86b2a4
   subpackages:
   - config
   - consensus/types
@@ -217,8 +219,8 @@ imports:
   - rpc/lib/types
   - state
   - types
-- name: github.com/tendermint/tmlibs
-  version: 15e51fa76086a3c505f227679c2478043ae7261b
+- name: github.com/ya-enot/tmlibs
+  version: d9d7935b38c860fa18aebb703180185b5ea3d230
   subpackages:
   - common
   - db

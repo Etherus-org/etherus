@@ -134,7 +134,7 @@ High Level Overview
 ^^^^^^^^^^^^^^^^^^^
 
 We start by describing the high level packages that Ethermint has. The all live under
-``github.com/tendermint/ethermint/``.
+``github.com/ya-enot/ethermint/``.
 
 * cmd - does not export anything. It only pulls in other packages to setup the ethermint node.
 

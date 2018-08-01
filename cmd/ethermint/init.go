@@ -13,9 +13,9 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/log"
-	"github.com/tendermint/ethermint/cmd/utils"
+	"github.com/ya-enot/ethermint/cmd/utils"
 
-	emtUtils "github.com/tendermint/ethermint/cmd/utils"
+	emtUtils "github.com/ya-enot/ethermint/cmd/utils"
 )
 
 // nolint: gocyclo
@@ -30,7 +30,7 @@ func initCmd(ctx *cli.Context) error {
 
 	// Step 1:
 	// If requested, invoke: tendermint init --home ethermintDataDir/tendermint
-	// See https://github.com/tendermint/ethermint/issues/244
+	// See https://github.com/ya-enot/ethermint/issues/244
 	canInvokeTendermintInit := canInvokeTendermint(ctx)
 	if canInvokeTendermintInit {
 		tendermintHome := filepath.Join(ethermintDataDir, "tendermint")
@@ -55,10 +55,10 @@ func initCmd(ctx *cli.Context) error {
 
 	log.Info("successfully wrote genesis block and/or chain rule set", "hash", hash)
 
-	// As per https://github.com/tendermint/ethermint/issues/244#issuecomment-322024199
+	// As per https://github.com/ya-enot/ethermint/issues/244#issuecomment-322024199
 	// Let's implicitly add in the respective keystore files
 	// to avoid manually doing this step:
-	// $ cp -r $GOPATH/src/github.com/tendermint/ethermint/setup/keystore $(DATADIR)
+	// $ cp -r $GOPATH/src/github.com/ya-enot/ethermint/setup/keystore $(DATADIR)
 	keystoreDir := filepath.Join(ethermintDataDir, "keystore")
 	if err := os.MkdirAll(keystoreDir, 0777); err != nil {
 		ethUtils.Fatalf("mkdirAll keyStoreDir: %v", err)
@@ -84,7 +84,7 @@ func initCmd(ctx *cli.Context) error {
 
 // nolint=lll
 var keystoreFilesMap = map[string]string{
-	// https://github.com/tendermint/ethermint/blob/edc95f9d47ba1fb7c8161182533b5f5d5c5d619b/setup/keystore/UTC--2016-10-21T22-30-03.071787745Z--7eff122b94897ea5b0e2a9abf47b86337fafebdc
+	// https://github.com/ya-enot/ethermint/blob/edc95f9d47ba1fb7c8161182533b5f5d5c5d619b/setup/keystore/UTC--2016-10-21T22-30-03.071787745Z--7eff122b94897ea5b0e2a9abf47b86337fafebdc
 	// OR
 	// $GOPATH/src/github.com/ethermint/setup/keystore/UTC--2016-10-21T22-30-03.071787745Z--7eff122b94897ea5b0e2a9abf47b86337fafebdc
 	"UTC--2016-10-21T22-30-03.071787745Z--7eff122b94897ea5b0e2a9abf47b86337fafebdc": `

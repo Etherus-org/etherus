@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tendermint/tmlibs/log"
+	"github.com/ya-enot/tmlibs/log"
 
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
+	ctypes "github.com/ya-enot/tendermint/rpc/core/types"
 
 	ethUtils "github.com/ethereum/go-ethereum/cmd/utils"
 	"github.com/ethereum/go-ethereum/common"
@@ -23,8 +23,8 @@ import (
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	"github.com/tendermint/ethermint/cmd/utils"
-	"github.com/tendermint/ethermint/ethereum"
+	"github.com/ya-enot/ethermint/cmd/utils"
+	"github.com/ya-enot/ethermint/ethereum"
 )
 
 var (

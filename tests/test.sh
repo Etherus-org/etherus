@@ -3,7 +3,7 @@
 # -x for debug
 set -eux
 
-# count of tendermint/ethermint node
+# count of ya-enot/ethermint node
 N=4
 
 # Docker version and info
@@ -63,7 +63,7 @@ for i in $(seq 1 "$N"); do
         --ip "$TENDERMINT_IP" \
         --name tendermint_$i \
         -v "$DATA_DIR/tendermint_$i:/tendermint" \
-        tendermint/tendermint node --proxy_app tcp://$ETHERMINT_IP:46658 $SEEDS
+        ya-enot/tendermint node --proxy_app tcp://$ETHERMINT_IP:46658 $SEEDS
 
 	# Start ethermint container. Pass tendermint IP
 	echo

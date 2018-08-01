@@ -13,11 +13,11 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	abciTypes "github.com/tendermint/abci/types"
+	abciTypes "github.com/ya-enot/abci/types"
 
-	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
+	rpcClient "github.com/ya-enot/tendermint/rpc/lib/client"
 
-	emtTypes "github.com/tendermint/ethermint/types"
+	emtTypes "github.com/ya-enot/ethermint/types"
 )
 
 //----------------------------------------------------------------------

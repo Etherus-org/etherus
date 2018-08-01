@@ -15,10 +15,10 @@ import (
 	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/params"
 
-	abciTypes "github.com/tendermint/abci/types"
+	abciTypes "github.com/ya-enot/abci/types"
 
-	emtTypes "github.com/tendermint/ethermint/types"
-	"github.com/cosmos/cosmos-sdk/errors"
+	emtTypes "github.com/ya-enot/ethermint/types"
+	"github.com/ya-enot/cosmos-sdk/errors"
 )
 
 //----------------------------------------------------------------------
@@ -197,7 +197,7 @@ func (ws *workState) deliverTx(blockchain *core.BlockChain, config *eth.Config,
 		vm.Config{EnablePreimageRecording: config.EnablePreimageRecording},
 	)
 	if err != nil {
-		return abciTypes.ResponseDeliverTx{Code: errors.CodeTypeInternalErr, Log: err.Error()}
+		return abciTypes.ResponseDeliverTx{Code: errors.CodeInternalError, Log: err.Error()}
 	}
 
 	logs := ws.state.GetLogs(tx.Hash())

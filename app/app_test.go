@@ -15,10 +15,10 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	"github.com/tendermint/ethermint/ethereum"
+	"github.com/ya-enot/ethermint/ethereum"
 
-	abciTypes "github.com/tendermint/abci/types"
-	"github.com/cosmos/cosmos-sdk/errors"
+	abciTypes "github.com/ya-enot/abci/types"
+	"github.com/ya-enot/cosmos-sdk/errors"
 )
 
 var (
@@ -72,7 +72,7 @@ func TestStrictlyIncrementingNonces(t *testing.T) {
 
 	assert.Equal(t, abciTypes.CodeTypeOK, app.CheckTx(tx1).Code)
 	// expect a failure here since the nonce is not strictly increasing
-	assert.Equal(t, errors.CodeTypeBadNonce, app.CheckTx(tx3).Code)
+	assert.Equal(t, errors.CodeBadNonce, app.CheckTx(tx3).Code)
 	assert.Equal(t, abciTypes.CodeTypeOK, app.CheckTx(tx2).Code)
 
 	app.BeginBlock(
@@ -82,7 +82,7 @@ func TestStrictlyIncrementingNonces(t *testing.T) {
 
 	assert.Equal(t, abciTypes.CodeTypeOK, app.DeliverTx(tx1).Code)
 	// expect a failure here since the nonce is not strictly increasing
-	assert.Equal(t, errors.CodeTypeInternalErr, app.DeliverTx(tx3).Code)
+	assert.Equal(t, errors.CodeInternalError, app.DeliverTx(tx3).Code)
 	assert.Equal(t, abciTypes.CodeTypeOK, app.DeliverTx(tx2).Code)
 
 	app.EndBlock(abciTypes.RequestEndBlock{height})
@@ -127,7 +127,7 @@ func TestBumpingNoncesViaRPC(t *testing.T) {
 
 	// replays should fail - we're checking if the transaction got through earlier, by
 	// replaying the nonce
-	assert.Equal(t, errors.CodeTypeBadNonce, app.CheckTx(tx1).Code)
+	assert.Equal(t, errors.CodeBadNonce, app.CheckTx(tx1).Code)
 	// ...on both interfaces of the app
 	assert.Equal(t, core.ErrNonceTooLow, backend.Ethereum().ApiBackend.SendTx(ctx, rawTx1))
 

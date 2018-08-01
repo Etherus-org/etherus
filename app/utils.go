@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	abciTypes "github.com/tendermint/abci/types"
+	abciTypes "github.com/ya-enot/abci/types"
 )
 
 // format of query data

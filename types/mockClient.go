@@ -1,14 +1,14 @@
 // TODO: Replace this with the mockClient in
-// github.com/tendermint/tendermint/rpc/client/mock/abci.go
+// github.com/ya-enot/tendermint/rpc/client/mock/abci.go
 
 package types
 
 import (
-	data "github.com/tendermint/go-wire/data"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	ttypes "github.com/tendermint/tendermint/types"
-	"github.com/tendermint/tmlibs/events"
-	"github.com/tendermint/tmlibs/log"
+	data "github.com/ya-enot/go-wire/data"
+	ctypes "github.com/ya-enot/tendermint/rpc/core/types"
+	ttypes "github.com/ya-enot/tendermint/types"
+	"github.com/ya-enot/tmlibs/events"
+	"github.com/ya-enot/tmlibs/log"
 )
 
 // MockClient is a mock implementation of a tendermint rpc client

@@ -15,13 +15,13 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/log"
 
-	"github.com/tendermint/abci/server"
+	"github.com/ya-enot/abci/server"
 
-	cmn "github.com/tendermint/tmlibs/common"
+	cmn "github.com/ya-enot/tmlibs/common"
 
-	abciApp "github.com/tendermint/ethermint/app"
-	emtUtils "github.com/tendermint/ethermint/cmd/utils"
-	"github.com/tendermint/ethermint/ethereum"
+	abciApp "github.com/ya-enot/ethermint/app"
+	emtUtils "github.com/ya-enot/ethermint/cmd/utils"
+	"github.com/ya-enot/ethermint/ethereum"
 )
 
 func ethermintCmd(ctx *cli.Context) error {
@@ -31,7 +31,7 @@ func ethermintCmd(ctx *cli.Context) error {
 
 	// Step 2: If we can invoke `tendermint node`, let's do so
 	// in order to make ethermint as self contained as possible.
-	// See Issue https://github.com/tendermint/ethermint/issues/244
+	// See Issue https://github.com/ya-enot/ethermint/issues/244
 	canInvokeTendermintNode := canInvokeTendermint(ctx)
 	if canInvokeTendermintNode {
 		tendermintHome := tendermintHomeFromEthermint(ctx)

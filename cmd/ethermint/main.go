@@ -9,8 +9,8 @@ import (
 	ethUtils "github.com/ethereum/go-ethereum/cmd/utils"
 	"github.com/ethereum/go-ethereum/params"
 
-	"github.com/tendermint/ethermint/cmd/utils"
-	"github.com/tendermint/ethermint/version"
+	"github.com/ya-enot/ethermint/cmd/utils"
+	"github.com/ya-enot/ethermint/version"
 )
 
 var (

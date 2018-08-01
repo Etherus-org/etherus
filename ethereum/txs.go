@@ -8,7 +8,7 @@ import (
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/log"
 
-	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
+	rpcClient "github.com/ya-enot/tendermint/rpc/lib/client"
 )
 
 //----------------------------------------------------------------------

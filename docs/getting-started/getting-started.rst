@@ -10,7 +10,7 @@ Setup Ethermint
 
 To get started, you need to initialise the genesis block for tendermint core and go-ethereum. We provide initialisation
 files with reasonable defaults and money allocated into a predefined account. If you installed from binary or docker
-please download `the default files here <https://github.com/tendermint/ethermint/tree/develop/setup>`_.
+please download `the default files here <https://github.com/ya-enot/ethermint/tree/develop/setup>`_.
 
 You can choose where to store the ethermint files with ``--datadir``. For this guide, we will use ``~/.ethermint``, which is a reasonable default in most cases.
 

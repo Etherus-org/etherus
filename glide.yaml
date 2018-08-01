@@ -1,11 +1,13 @@
-package: github.com/tendermint/ethermint
+package: github.com/ya-enot/ethermint
 import:
-- package: github.com/tendermint/tendermint
-  version: 0.15.x
-- package: github.com/tendermint/tmlibs
-  version: 0.6.x
-- package: github.com/tendermint/abci
-  version: 0.9.x
+- package: github.com/ya-enot/cosmos-sdk
+  version: ya-enot-develop
+- package: github.com/ya-enot/tendermint
+  version: ya-enot-develop
+- package: github.com/ya-enot/tmlibs
+  version: ya-enot-develop
+- package: github.com/ya-enot/abci
+  version: ya-enot-develop
 - package: github.com/ethereum/go-ethereum
   version: f1.6.7
   repo: https://github.com/tendermint/go-ethereum.git
