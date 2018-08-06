@@ -314,7 +314,7 @@ imports:
   - tap
   - transport
 - name: gopkg.in/fatih/set.v0
-  version: 27c40922c40b43fe04554d8223a402af3ea333f3
+  version: 57907de300222151a123d29255ed17f5ed43fad3
 - name: gopkg.in/go-playground/validator.v9
   version: 61caf9d3038e1af346dbf5c2e16f6678e1548364
 - name: gopkg.in/karalabe/cookiejar.v2
@@ -328,7 +328,7 @@ imports:
   subpackages:
   - base64vlq
 - name: gopkg.in/urfave/cli.v1
-  version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
+  version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 testImports:
 - name: github.com/davecgh/go-spew
   version: 04cdfd42973bb9c8589fd6a731800cf222fde1a9
