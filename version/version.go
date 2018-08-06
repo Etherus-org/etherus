@@ -14,7 +14,7 @@ var (
 	Version = "0.5.3"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse --short HEAD)"
-	GitCommit string
+	GitCommit = "0000000"
 )
 
 func init() {
