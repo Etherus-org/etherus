@@ -11,7 +11,7 @@ import (
 )
 
 // defaultGenesisBlob is the JSON representation of the default
-// genesis file in $GOPATH/src/github.com/tendermint/ethermint/setup/genesis.json
+// genesis file in $GOPATH/src/github.com/ya-enot/etherus/setup/genesis.json
 // nolint=lll
 var defaultGenesisBlob = []byte(`
 {

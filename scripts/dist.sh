@@ -26,7 +26,7 @@ fi
 
 # Get the git commit
 GIT_COMMIT="$(git rev-parse --short HEAD)"
-GIT_IMPORT="github.com/tendermint/ethermint/version"
+GIT_IMPORT="github.com/ya-enot/etherus/version"
 
 # Determine the arch/os combos we're building for
 XC_ARCH=${XC_ARCH:-"386 amd64 arm-5 arm-6 arm-7 mips mipsle mips64 mips64le"}

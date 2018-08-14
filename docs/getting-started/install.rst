@@ -41,9 +41,9 @@ On all platforms, you'll need ``golang`` `installed <https://golang.org/doc/inst
 
 ::
 
-    go get -u -d github.com/tendermint/ethermint
-    go get -u -d github.com/tendermint/tendermint
-    cd $GOPATH/src/github.com/tendermint/ethermint
+    go get -u -d github.com/ya-enot/etherus
+    go get -u -d github.com/ya-enot/tendermint
+    cd $GOPATH/src/github.com/ya-enot/etherus
     make install
     cd ../tendermint
     make install

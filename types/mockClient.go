@@ -1,14 +1,15 @@
 // TODO: Replace this with the mockClient in
-// github.com/tendermint/tendermint/rpc/client/mock/abci.go
+// github.com/ya-enot/tendermint/rpc/client/mock/abci.go
 
 package types
 
+/*
 import (
+	"github.com/tendermint/tendermint/libs/log"
 	data "github.com/tendermint/go-wire/data"
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 	ttypes "github.com/tendermint/tendermint/types"
-	"github.com/tendermint/tmlibs/events"
-	"github.com/tendermint/tmlibs/log"
+	"github.com/tendermint/tendermint/libs/events"
 )
 
 // MockClient is a mock implementation of a tendermint rpc client
@@ -175,3 +176,4 @@ func (mc *MockClient) RemoveListenerForEvent(event string, listenerID string) {
 func (mc *MockClient) RemoveListener(listenerID string) {
 	// nop
 }
+*/

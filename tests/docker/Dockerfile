@@ -4,7 +4,7 @@ RUN mkdir /ethermint && \
     chmod 777 /ethermint
 
 # Setup ethermint repo
-ENV REPO $GOPATH/src/github.com/tendermint/ethermint
+ENV REPO $GOPATH/src/github.com/ya-enot/etherus
 WORKDIR $REPO
 
 # Install the vendored dependencies before copying code
@@ -27,6 +27,6 @@ COPY setup/keystore /ethermint/data/keystore
 # expose the volume for debugging
 VOLUME $REPO
 
-EXPOSE 46658
+EXPOSE 26658
 EXPOSE 8545
 EXPOSE 8546

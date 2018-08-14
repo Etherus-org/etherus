@@ -5,7 +5,7 @@ ENV EM_VERSION 0.5.3
 # ENV EM_SHA256SUM c746b4485967af9f3bfd66238b1ca718a5d77baf2382cde027348313f502d34b
 
 ENV DATA_ROOT /ethermint
-ENV TENDERMINT_ADDR tcp://0.0.0.0:46657
+ENV TENDERMINT_ADDR tcp://0.0.0.0:26657
 
 # Set user right away for determinism
 RUN addgroup emuser && \
@@ -27,6 +27,6 @@ RUN apk add --no-cache openssl && \
 # Expose the data directory as a volume since there's mutable state in there
 VOLUME $DATA_ROOT
 
-EXPOSE 46658
+EXPOSE 26658
 
 CMD ethermint --datadir $DATA_ROOT --tendermint_addr $TENDERMINT_ADDR

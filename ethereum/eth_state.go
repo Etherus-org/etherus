@@ -11,14 +11,15 @@ import (
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/eth"
+
 	//"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/params"
 
-	abciTypes "github.com/tendermint/abci/types"
+	abciTypes "github.com/tendermint/tendermint/abci/types"
 
-	emtTypes "github.com/tendermint/ethermint/types"
-	"github.com/cosmos/cosmos-sdk/errors"
+	errors "github.com/cosmos/cosmos-sdk/types"
+	emtTypes "github.com/ya-enot/etherus/types"
 )
 
 //----------------------------------------------------------------------
@@ -197,7 +198,7 @@ func (ws *workState) deliverTx(blockchain *core.BlockChain, config *eth.Config,
 		vm.Config{EnablePreimageRecording: config.EnablePreimageRecording},
 	)
 	if err != nil {
-		return abciTypes.ResponseDeliverTx{Code: errors.CodeTypeInternalErr, Log: err.Error()}
+		return abciTypes.ResponseDeliverTx{Code: uint32(errors.CodeInternal), Log: err.Error()}
 	}
 
 	logs := ws.state.GetLogs(tx.Hash())

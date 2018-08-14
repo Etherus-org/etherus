@@ -11,8 +11,10 @@ import (
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/params"
 
-	"github.com/tendermint/ethermint/ethereum"
+	"github.com/ya-enot/etherus/ethereum"
 
+	amino "github.com/tendermint/go-amino"
+	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
 )
 
@@ -46,7 +48,13 @@ func MakeFullNode(ctx *cli.Context) *ethereum.Node {
 
 	tendermintLAddr := ctx.GlobalString(TendermintAddrFlag.Name)
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
-		return ethereum.NewBackend(ctx, &cfg.Eth, rpcClient.NewURIClient(tendermintLAddr))
+		client := rpcClient.NewURIClient(tendermintLAddr)
+
+		cdc := amino.NewCodec()
+		ctypes.RegisterAmino(cdc)
+		client.SetCodec(cdc)
+
+		return ethereum.NewBackend(ctx, &cfg.Eth, client)
 	}); err != nil {
 		ethUtils.Fatalf("Failed to register the ABCI application service: %v", err)
 	}

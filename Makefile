@@ -8,7 +8,7 @@ BUILD_TAGS? := ethermint
 
 VERSION_TAG := 0.5.3
 
-BUILD_FLAGS = -ldflags "-X github.com/tendermint/ethermint/version.GitCommit=`git rev-parse --short HEAD`"
+BUILD_FLAGS = -ldflags "-X github.com/ya-enot/etherus/version.GitCommit=`git rev-parse --short HEAD`"
 
 
 ### Development ###
@@ -56,14 +56,14 @@ clean:
 draw_deps:
 	@echo "--> Drawing dependencies"
 	go get github.com/RobotsAndPencils/goviz
-	goviz -i github.com/tendermint/ethermint/cmd/ethermint -d 2 | dot -Tpng -o dependency-graph.png
+	goviz -i github.com/ya-enot/etherus/cmd/ethermint -d 2 | dot -Tpng -o dependency-graph.png
 
 get_vendor_deps:
 	@hash glide 2>/dev/null || go get github.com/Masterminds/glide
 	@rm -rf vendor/
 	@echo "--> Running glide install"
 	@glide install
-	@# ethereum/node.go:53:23: cannot use ctx (type *"github.com/tendermint/ethermint/vendor/gopkg.in/urfave/cli.v1".Context) as type *"github.com/tendermint/ethermint/vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave/cli.v1".Context in argument to utils.SetEthConfig
+	@# ethereum/node.go:53:23: cannot use ctx (type *"github.com/ya-enot/etherus/vendor/gopkg.in/urfave/cli.v1".Context) as type *"github.com/ya-enot/etherus/vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave/cli.v1".Context in argument to utils.SetEthConfig
 	@rm -rf vendor/github.com/ethereum/go-ethereum/vendor
 
 tools:
@@ -87,20 +87,20 @@ publish:
 
 ### Docker ###
 docker_build_develop:
-	docker build -t "tendermint/ethermint:develop" -t "adrianbrink/ethermint:develop" \
+	docker build -t "ya-enot/etherus:develop" -t "adrianbrink/ethermint:develop" \
 		-f scripts/docker/Dockerfile.develop .
 
 docker_push_develop:
-	docker push "tendermint/ethermint:develop"
+	docker push "ya-enot/etherus:develop"
 	docker push "adrianbrink/ethermint:develop"
 
 docker_build:
-	docker build -t "tendermint/ethermint" -t "tendermint/ethermint:$(VERSION_TAG)" \
+	docker build -t "ya-enot/etherus" -t "ya-enot/etherus:$(VERSION_TAG)" \
 		-t "adrianbrink/ethermint" -t "adrianbrink/ethermint:$(VERSION_TAG)" -f scripts/docker/Dockerfile .
 
 docker_push:
-	docker push "tendermint/ethermint:latest"
-	docker push "tendermint/ethermint:$(VERSION_TAG)"
+	docker push "ya-enot/etherus:latest"
+	docker push "ya-enot/etherus:$(VERSION_TAG)"
 	docker push "adrianbrink/ethermint:latest"
 	docker push "adrianbrink/ethermint:$(VERSION_TAG)"
 

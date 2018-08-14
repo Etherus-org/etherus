@@ -8,5 +8,5 @@ if [ -z $N ]; then
 fi
 
 for i in `seq 0 $(($N-1))`; do
-  kubectl expose pod tm-$i --type NodePort --port 8545,46657
+  kubectl expose pod tm-$i --type NodePort --port 8545,26657
 done

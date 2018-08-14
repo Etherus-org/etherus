@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tendermint/tmlibs/log"
+	"github.com/tendermint/tendermint/libs/log"
 
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 
@@ -23,8 +23,8 @@ import (
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	"github.com/tendermint/ethermint/cmd/utils"
-	"github.com/tendermint/ethermint/ethereum"
+	"github.com/ya-enot/etherus/cmd/utils"
+	"github.com/ya-enot/etherus/ethereum"
 )
 
 var (

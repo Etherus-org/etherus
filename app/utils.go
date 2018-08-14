@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/rlp"
 
-	abciTypes "github.com/tendermint/abci/types"
+	abciTypes "github.com/tendermint/tendermint/abci/types"
 )
 
 // format of query data
@@ -42,7 +42,7 @@ func (app *EthermintApplication) Receiver() common.Address {
 
 // SetValidators sets new validators on the strategy
 // #unstable
-func (app *EthermintApplication) SetValidators(validators []*abciTypes.Validator) {
+func (app *EthermintApplication) SetValidators(validators []abciTypes.Validator) {
 	if app.strategy != nil {
 		app.strategy.SetValidators(validators)
 	}

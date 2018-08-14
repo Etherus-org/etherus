@@ -1,7 +1,7 @@
 FROM alpine:3.6
 
 ENV DATA_ROOT /ethermint
-ENV TENDERMINT_ADDR tcp://0.0.0.0:46657
+ENV TENDERMINT_ADDR tcp://0.0.0.0:26657
 
 RUN addgroup emuser && \
     adduser -S -G emuser emuser
@@ -13,21 +13,21 @@ RUN apk add --no-cache bash
 
 ENV GOPATH /go
 ENV PATH "$PATH:/go/bin"
-RUN mkdir -p /go/src/github.com/tendermint/ethermint && \
+RUN mkdir -p /go/src/github.com/ya-enot/etherus && \
     apk add --no-cache go build-base git linux-headers && \
-    cd /go/src/github.com/tendermint/ethermint && \
-    git clone https://github.com/tendermint/ethermint . && \
+    cd /go/src/github.com/ya-enot/etherus && \
+    git clone https://github.com/ya-enot/etherus . && \
     git checkout develop && \
     make get_vendor_deps && \
     make install && \
     glide cc && \
     cd - && \
-    rm -rf /go/src/github.com/tendermint/ethermint && \
+    rm -rf /go/src/github.com/ya-enot/etherus && \
     apk del go build-base git
 
 VOLUME $DATA_ROOT
 
-EXPOSE 46658
+EXPOSE 26658
 
 #ENTRYPOINT ["ethermint"]
 

@@ -13,11 +13,11 @@ import (
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	abciTypes "github.com/tendermint/abci/types"
+	abciTypes "github.com/tendermint/tendermint/abci/types"
 
 	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
 
-	emtTypes "github.com/tendermint/ethermint/types"
+	emtTypes "github.com/ya-enot/etherus/types"
 )
 
 //----------------------------------------------------------------------
@@ -116,7 +116,7 @@ func (b *Backend) InitEthState(receiver common.Address) error {
 
 // UpdateHeaderWithTimeInfo uses the tendermint header to update the ethereum header
 // #unstable
-func (b *Backend) UpdateHeaderWithTimeInfo(tmHeader *abciTypes.Header) {
+func (b *Backend) UpdateHeaderWithTimeInfo(tmHeader abciTypes.Header) {
 	b.es.UpdateHeaderWithTimeInfo(b.ethereum.ApiBackend.ChainConfig(), uint64(tmHeader.Time),
 		uint64(tmHeader.GetNumTxs()))
 }
