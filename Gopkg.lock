@@ -448,6 +448,7 @@
     "github.com/ethereum/go-ethereum",
     "github.com/mattn/go-colorable",
     "github.com/stretchr/testify/assert",
+    "github.com/tendermint/go-amino",
     "github.com/tendermint/tendermint/abci/server",
     "github.com/tendermint/tendermint/abci/types",
     "github.com/tendermint/tendermint/libs/common",

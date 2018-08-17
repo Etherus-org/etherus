@@ -60,6 +60,7 @@ var (
 		utils.VerbosityFlag,
 		utils.ConfigFileFlag,
 		utils.WithTendermintFlag,
+		utils.ValidatorAddressFlag,
 	}
 )
 

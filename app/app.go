@@ -16,6 +16,7 @@ import (
 	emtTypes "github.com/ya-enot/etherus/types"
 
 	cosmosErrors "github.com/cosmos/cosmos-sdk/types"
+	"github.com/ethereum/go-ethereum/common"
 	abciTypes "github.com/tendermint/tendermint/abci/types"
 	tmLog "github.com/tendermint/tendermint/libs/log"
 )
@@ -42,22 +43,24 @@ type EthermintApplication struct {
 	logger tmLog.Logger
 
 	validators *validators.ValidatorsManager
+
+	myValidator *common.Address
 }
 
 // NewEthermintApplication creates a fully initialised instance of EthermintApplication
 // #stable - 0.4.0
 func NewEthermintApplication(backend *ethereum.Backend,
-	client *rpc.Client, strategy *emtTypes.Strategy) (*EthermintApplication, error) {
+	client *rpc.Client, myValidator *common.Address, strategy *emtTypes.Strategy) (*EthermintApplication, error) {
 
 	state, err := backend.Ethereum().BlockChain().State()
 	if err != nil {
 		return nil, err
 	}
 
-	//	vlds, err := validators.CreateValidators(backend)
-	//	if err != nil {
-	//		return nil, err
-	//	}
+	vlds, err := validators.CreateValidators(backend)
+	if err != nil {
+		return nil, err
+	}
 
 	app := &EthermintApplication{
 		backend:         backend,
@@ -65,10 +68,11 @@ func NewEthermintApplication(backend *ethereum.Backend,
 		getCurrentState: backend.Ethereum().BlockChain().State,
 		checkTxState:    state.Copy(),
 		strategy:        strategy,
-		//		validators:      vlds,
+		validators:      vlds,
+		myValidator:     myValidator,
 	}
 
-	if err := app.backend.InitEthState(app.Receiver()); err != nil {
+	if err := app.backend.InitEthState(common.Address{}); err != nil {
 		return nil, err
 	}
 
@@ -182,6 +186,14 @@ func (app *EthermintApplication) DeliverTx(txBytes []byte) abciTypes.ResponseDel
 func (app *EthermintApplication) BeginBlock(beginBlock abciTypes.RequestBeginBlock) abciTypes.ResponseBeginBlock {
 
 	app.logger.Debug("BeginBlock") // nolint: errcheck
+
+	validator := beginBlock.Header.Proposer
+	validatorAddress := common.BytesToAddress(validator.Address)
+	app.logger.Debug("Proposer address is ", "validatorAddress", validatorAddress)
+
+	if err := app.backend.InitEthState(app.Receiver()); err != nil {
+		panic(err)
+	}
 
 	// update the eth header with the tendermint header
 	app.backend.UpdateHeaderWithTimeInfo(beginBlock.GetHeader())

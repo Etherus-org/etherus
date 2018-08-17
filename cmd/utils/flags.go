@@ -41,6 +41,14 @@ var (
 		Usage: "Logging verbosity: 0=silent, 1=error, 2=warn, 3=info, 4=core, 5=debug, 6=detail",
 	}
 
+	// ValidatorAddressFlag defines the tendermint validator address of the current node
+	// #unstable
+	ValidatorAddressFlag = cli.StringFlag{
+		Name:  "validator_addr",
+		Value: "",
+		Usage: "Tendermint priv_validator address: 0xabcdef0123456789abcdef0123456789abcdef01",
+	}
+
 	// ConfigFileFlag defines the path to a TOML config for go-ethereum
 	// #unstable
 	ConfigFileFlag = cli.StringFlag{

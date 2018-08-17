@@ -3,6 +3,7 @@ pragma solidity ^0.4.20;
 
 contract Validators {
     struct Validator {
+        address nodeAddr;
         uint96 deposit;
         uint48 pauseBlockNumber;
         uint8  pauseCause;
@@ -19,39 +20,45 @@ contract Validators {
     bytes32[] validatorsIndex;
 
     function () payable public {
-        addDeposit(msg.sender, msg.value);
+        revert(); //Should not pay directly
     }
 
-    function hasDeposit(address addr) public view returns (bool) {
-        return validators[addr].deposit > 0;
+    function hasDeposit(address vAddr) public view returns (bool) {
+        return validators[vAddr].deposit > 0;
     }
 
-    function isPaused(address addr) public view returns (bool) {
-        return validators[addr].pauseCause > 0;
+    function isPaused(address vAddr) public view returns (bool) {
+        return validators[vAddr].pauseCause > 0;
     }
 
-    function pauseValidation(address addr, uint8 cause) public {
-        require(!isPaused(addr) && hasDeposit(addr));
+    function getNodeAddr(address vAddr) public view returns (address) {
+        return validators[vAddr].nodeAddr;
+    }
+
+    function pauseValidation(address vAddr, address vFrom, uint8 cause) public {
+        require(!isPaused(vAddr) && hasDeposit(vAddr));
         require(cause >= PAUSE_CAUSE_VOLUNTARILY);
+        require(getNodeAddr(vFrom) == msg.sender);
 
-        if(addr != msg.sender){
-            require(hasDeposit(msg.sender) && !isPaused(msg.sender));
+        if(vAddr != vFrom){
+            require(hasDeposit(vFrom) && !isPaused(vFrom));
             require(cause != PAUSE_CAUSE_VOLUNTARILY);
         }else{
             require(cause == PAUSE_CAUSE_VOLUNTARILY);
         }
 
-        Validator storage v = validators[addr];
+        Validator storage v = validators[vAddr];
         v.pauseBlockNumber = uint48(block.number);
         v.pauseCause = cause;
 
-        validatorsIndex[v.idx] = compactValidator(addr, v);
+        validatorsIndex[v.idx] = compactValidator(vAddr, v);
     }
 
-    function resumeValidation() public {
-        require(isPaused(msg.sender));
+    function resumeValidation(address vAddr) public {
+        require(isPaused(vAddr));
 
-        Validator storage v = validators[msg.sender];
+        Validator storage v = validators[vAddr];
+        require(v.nodeAddr == msg.sender);
         require(v.pauseCause == PAUSE_CAUSE_VOLUNTARILY);
         v.pauseBlockNumber = 0;
         v.pauseCause = 0;
@@ -59,31 +66,34 @@ contract Validators {
         validatorsIndex[v.idx] = compactValidator(msg.sender, v);
     }
 
-    function withdraw() public {
-        require(hasDeposit(msg.sender));
-        require(isPaused(msg.sender));
+    function withdraw(address vAddr) public {
+        require(hasDeposit(vAddr));
+        require(isPaused(vAddr));
         
-        Validator storage v = validators[msg.sender];
+        Validator storage v = validators[vAddr];
+        require(v.nodeAddr == msg.sender);
         require(v.pauseCause == PAUSE_CAUSE_VOLUNTARILY);
         require(v.pauseBlockNumber + DEPOSIT_LOCK_BLOCKS <= uint48(block.number));
 
         uint dep = v.deposit;
-        deleteDeposit(msg.sender); 
+        deleteDeposit(vAddr);
 
         msg.sender.transfer(dep);
     }
 
-    function addDeposit(address from, uint value) internal {
-        Validator storage val = validators[from];
-        val.deposit += uint96(value);
-        require(val.deposit >= MIN_DEPOSIT);
+    function addDeposit(address vAddr, address nodeAddr) public payable {
+        Validator storage v = validators[vAddr];
+        v.deposit += uint96(msg.value);
+        require(v.deposit >= MIN_DEPOSIT);
+        if(v.nodeAddr == 0)
+            v.nodeAddr = nodeAddr;
 
-        bytes32 compactedValidator = compactValidator(from, val);
-        if(val.idx > 0) {
-            validatorsIndex[val.idx] = compactedValidator;
+        bytes32 compactedValidator = compactValidator(vAddr, v);
+        if(v.idx > 0) {
+            validatorsIndex[v.idx] = compactedValidator;
         }else{
             validatorsIndex.push(compactedValidator);
-            val.idx = uint32(validatorsIndex.length);
+            v.idx = uint32(validatorsIndex.length);
         }
     }
 
@@ -117,8 +127,8 @@ contract Validators {
         Compacts validator into bytes32
         |reserved 24 bits|pauseCause 8 bits|senior 64 bits of deposit|validator address 160 bits|
     */
-    function compactValidator(address addr, Validator storage v) internal view returns (bytes32) {
-        return bytes32(uint256(addr) 
+    function compactValidator(address vAddr, Validator storage v) internal view returns (bytes32) {
+        return bytes32(uint256(vAddr)
             & ((uint256(v.deposit) >> 32) << 160)
             & (uint256(v.pauseCause) << 224));
     }

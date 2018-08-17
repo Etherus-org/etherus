@@ -19,6 +19,7 @@ import (
 
 	cmn "github.com/tendermint/tendermint/libs/common"
 
+	"github.com/ethereum/go-ethereum/common"
 	abciApp "github.com/ya-enot/etherus/app"
 	emtUtils "github.com/ya-enot/etherus/cmd/utils"
 	"github.com/ya-enot/etherus/ethereum"
@@ -56,6 +57,13 @@ func ethermintCmd(ctx *cli.Context) error {
 	addr := ctx.GlobalString(emtUtils.ABCIAddrFlag.Name)
 	abci := ctx.GlobalString(emtUtils.ABCIProtocolFlag.Name)
 
+	var myValidator *common.Address = nil
+	myValidatorAddrStr := ctx.GlobalString(emtUtils.ValidatorAddressFlag.Name)
+	if myValidatorAddrStr != "" {
+		myValidator = new(common.Address)
+		*myValidator = common.HexToAddress(myValidatorAddrStr)
+	}
+
 	// Fetch the registered service of this type
 	var backend *ethereum.Backend
 	if err := node.Service(&backend); err != nil {
@@ -69,7 +77,7 @@ func ethermintCmd(ctx *cli.Context) error {
 	}
 
 	// Create the ABCI app
-	ethApp, err := abciApp.NewEthermintApplication(backend, rpcClient, nil)
+	ethApp, err := abciApp.NewEthermintApplication(backend, rpcClient, myValidator, nil)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
