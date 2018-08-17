@@ -32,7 +32,7 @@ func (b *Backend) txBroadcastLoop() {
 // BroadcastTx broadcasts a transaction to tendermint core
 // #unstable
 func (b *Backend) BroadcastTx(tx *ethTypes.Transaction) error {
-	var result interface{}
+	result := new(ctypes.ResultBroadcastTx)
 
 	buf := new(bytes.Buffer)
 	if err := tx.EncodeRLP(buf); err != nil {
@@ -42,7 +42,7 @@ func (b *Backend) BroadcastTx(tx *ethTypes.Transaction) error {
 		"tx": buf.Bytes(),
 	}
 
-	_, err := b.client.Call("broadcast_tx_sync", params, &result)
+	_, err := b.client.Call("broadcast_tx_sync", params, result)
 	return err
 }
 

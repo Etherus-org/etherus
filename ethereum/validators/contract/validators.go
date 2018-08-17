@@ -14,10 +14,10 @@ import (
 )
 
 // ValidatorsABI is the input ABI used to generate the binding from.
-const ValidatorsABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"getCompactedValidators\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"}],\"name\":\"hasDeposit\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"}],\"name\":\"getNodeAddr\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"},{\"name\":\"nodeAddr\",\"type\":\"address\"}],\"name\":\"addDeposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PAUSE_CAUSE_VOLUNTARILY\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"}],\"name\":\"isPaused\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"},{\"name\":\"vFrom\",\"type\":\"address\"},{\"name\":\"cause\",\"type\":\"uint8\"}],\"name\":\"pauseValidation\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PAUSE_CAUSE_PUNISHMENT\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vAddr\",\"type\":\"address\"}],\"name\":\"resumeValidation\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"MIN_DEPOSIT\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"DEPOSIT_LOCK_BLOCKS\",\"outputs\":[{\"name\":\"\",\"type\":\"uint48\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"}]"
+const ValidatorsABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"}],\"name\":\"getNodeAddr\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getCompactedValidators\",\"outputs\":[{\"name\":\"ValidatorsCompacted\",\"type\":\"bytes32[]\"},{\"name\":\"ValidatorsIndex\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"}],\"name\":\"isPaused\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PAUSE_CAUSE_VOLUNTARILY\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"},{\"name\":\"vFrom\",\"type\":\"bytes32\"},{\"name\":\"cause\",\"type\":\"uint8\"}],\"name\":\"pauseValidation\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"},{\"name\":\"nodeAddr\",\"type\":\"address\"}],\"name\":\"addDeposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"}],\"name\":\"hasDeposit\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vPub\",\"type\":\"bytes32\"}],\"name\":\"resumeValidation\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PAUSE_CAUSE_PUNISHMENT\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"MIN_DEPOSIT\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"DEPOSIT_LOCK_BLOCKS\",\"outputs\":[{\"name\":\"\",\"type\":\"uint48\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"}]"
 
 // ValidatorsBin is the compiled bytecode used for deploying new contracts.
-const ValidatorsBin = `0x6060604052341561000f57600080fd5b610a778061001e6000396000f3006060604052600436106100b95763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663181a8d6881146100be5780631c48c7ec1461012457806320aca18c146101575780632f1c563e1461019257806347fdd5f8146101ae57806351cff8d9146101d75780635b14f183146101f65780636393ac7b14610215578063be1d05c214610240578063d67d0a3a14610253578063e1e158a514610272578063faeedb6114610297575b600080fd5b34156100c957600080fd5b6100d16102c5565b60405160208082528190810183818151815260200191508051906020019060200280838360005b838110156101105780820151838201526020016100f8565b505050509050019250505060405180910390f35b341561012f57600080fd5b610143600160a060020a0360043516610325565b604051901515815260200160405180910390f35b341561016257600080fd5b610176600160a060020a0360043516610356565b604051600160a060020a03909116815260200160405180910390f35b6101ac600160a060020a0360043581169060243516610374565b005b34156101b957600080fd5b6101c16104c2565b60405160ff909116815260200160405180910390f35b34156101e257600080fd5b6101ac600160a060020a03600435166104c7565b341561020157600080fd5b610143600160a060020a03600435166105b4565b341561022057600080fd5b6101ac600160a060020a036004358116906024351660ff604435166105e0565b341561024b57600080fd5b6101c1610728565b341561025e57600080fd5b6101ac600160a060020a036004351661072d565b341561027d57600080fd5b6102856107dc565b60405190815260200160405180910390f35b34156102a257600080fd5b6102aa6107e8565b60405165ffffffffffff909116815260200160405180910390f35b6102cd6109fc565b600180548060200260200160405190810160405280929190818152602001828054801561031a57602002820191906000526020600020905b81548152600190910190602001808311610305575b505050505090505b90565b600160a060020a031660009081526020819052604081205460a060020a90046bffffffffffffffffffffffff161190565b600160a060020a039081166000908152602081905260409020541690565b600160a060020a03808316600090815260208190526040812080546bffffffffffffffffffffffff60a060020a808304821634018216810292909516919091178083559193670de0b6b3a764000092041610156103d057600080fd5b8154600160a060020a0316151561040857815473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0384161782555b61041284836107ed565b6001830154909150600067010000000000000090910463ffffffff16111561046a576001828101548154839291670100000000000000900463ffffffff1690811061045957fe5b6000918252602090912001556104bc565b6001805480820161047b8382610a0e565b50600091825260209091200181905560018054908301805463ffffffff909216670100000000000000026affffffff00000000000000199092169190911790555b50505050565b600181565b6000806104d383610325565b15156104de57600080fd5b6104e7836105b4565b15156104f257600080fd5b600160a060020a038381166000908152602081905260409020805490935033821691161461051f57600080fd5b6001828101546601000000000000900460ff161461053c57600080fd5b600182015465ffffffffffff438116918116600a0116111561055d57600080fd5b50805460a060020a90046bffffffffffffffffffffffff1661057e83610856565b600160a060020a03331681156108fc0282604051600060405180830381858888f1935050505015156105af57600080fd5b505050565b600160a060020a03166000908152602081905260408120600101546601000000000000900460ff161190565b60006105eb846105b4565b1580156105fc57506105fc84610325565b151561060757600080fd5b600160ff8316101561061857600080fd5b33600160a060020a031661062b84610356565b600160a060020a03161461063e57600080fd5b600160a060020a038481169084161461068d5761065a83610325565b801561066c575061066a836105b4565b155b151561067757600080fd5b60ff82166001141561068857600080fd5b61069d565b60ff821660011461069d57600080fd5b50600160a060020a038316600090815260208190526040902060018101805465ffffffffffff19164365ffffffffffff161766ff0000000000001916660100000000000060ff8516021790556106f384826107ed565b600182810154815467010000000000000090910463ffffffff1690811061071657fe5b60009182526020909120015550505050565b600281565b6000610738826105b4565b151561074357600080fd5b50600160a060020a0381811660009081526020819052604090208054909133811691161461077057600080fd5b6001818101546601000000000000900460ff161461078d57600080fd5b60018101805466ffffffffffffff191690556107a933826107ed565b600182810154815467010000000000000090910463ffffffff169081106107cc57fe5b6000918252602090912001555050565b670de0b6b3a764000081565b600a81565b60018101549054600160a060020a03660100000000000090920460ff167c01000000000000000000000000000000000000000000000000000000000264010000000060a060020a928390046bffffffffffffffffffffffff160490910292909216919091161690565b600160a060020a03811660009081526020819052604081208054600191908390819060a060020a90046bffffffffffffffffffffffff1681901161089957600080fd5b8354600090116108a557fe5b60018360010160079054906101000a900463ffffffff16039150600184805490501180156108de575083546000190163ffffffff831614155b15610996578354849060001981019081106108f557fe5b906000526020600020900154848363ffffffff1681548110151561091557fe5b600091825260209091200155835461094a90859063ffffffff851690811061093957fe5b906000526020600020900154610322565b600160a060020a0381166000908152602087905260409020600190810180546affffffff00000000000000191667010000000000000092860163ffffffff169290920291909117905590505b8354849060001981019081106109a857fe5b600091825260208220015583546109c3856000198301610a0e565b505050600160a060020a039093166000908152602092909252506040812090815560010180546affffffffffffffffffffff1916905550565b60206040519081016040526000815290565b8154818355818115116105af576000838152602090206105af91810190830161032291905b80821115610a475760008155600101610a33565b50905600a165627a7a72305820be64d50614e74597ce3400b7e342c6c6150ba61fea0bd83f497c23f1131d12950029`
+const ValidatorsBin = `0x6060604052341561000f57600080fd5b610b8b8061001e6000396000f3006060604052600436106100b95763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630b8604fc81146100be578063181a8d68146100f0578063241b71bb1461019c57806347fdd5f8146101c657806379354ef5146101ef5780637e332a46146102105780638e19899e1461022757806392c8a9661461023d5780639da0e3e314610253578063be1d05c214610269578063e1e158a51461027c578063faeedb61146102a1575b600080fd5b34156100c957600080fd5b6100d46004356102cf565b604051600160a060020a03909116815260200160405180910390f35b34156100fb57600080fd5b6101036102ea565b604051808060200180602001838103835285818151815260200191508051906020019060200280838360005b8381101561014757808201518382015260200161012f565b50505050905001838103825284818151815260200191508051906020019060200280838360005b8381101561018657808201518382015260200161016e565b5050505090500194505050505060405180910390f35b34156101a757600080fd5b6101b26004356103a6565b604051901515815260200160405180910390f35b34156101d157600080fd5b6101d96103c9565b60405160ff909116815260200160405180910390f35b34156101fa57600080fd5b61020e60043560243560ff604435166103ce565b005b61020e600435600160a060020a0360243516610500565b341561023257600080fd5b61020e60043561069e565b341561024857600080fd5b6101b2600435610789565b341561025e57600080fd5b61020e6004356107b1565b341561027457600080fd5b6101d961085c565b341561028757600080fd5b61028f610861565b60405190815260200160405180910390f35b34156102ac57600080fd5b6102b461086d565b60405165ffffffffffff909116815260200160405180910390f35b600090815260208190526040902054600160a060020a031690565b6102f2610b0d565b6102fa610b0d565b600280548060200260200160405190810160405280929190818152602001828054801561034757602002820191906000526020600020905b81548152600190910190602001808311610332575b50505050509150600180548060200260200160405190810160405280929190818152602001828054801561039b57602002820191906000526020600020905b81548152600190910190602001808311610386575b505050505090509091565b6000908152602081905260408120600101546601000000000000900460ff161190565b600181565b60006103d9846103a6565b1580156103ea57506103ea84610789565b15156103f557600080fd5b600160ff8316101561040657600080fd5b33600160a060020a0316610419846102cf565b600160a060020a03161461042c57600080fd5b83831461046f5761043c83610789565b801561044e575061044c836103a6565b155b151561045957600080fd5b60ff82166001141561046a57600080fd5b61047f565b60ff821660011461047f57600080fd5b50600083815260208190526040902060018101805465ffffffffffff19164365ffffffffffff161766ff0000000000001916660100000000000060ff8516021790556104cb8482610872565b600182810154815467010000000000000090910463ffffffff169081106104ee57fe5b60009182526020909120015550505050565b600082815260208190526040812080546bffffffffffffffffffffffff60a060020a8083048216340182168102600160a060020a0390931692909217808455929392670de0b6b3a764000092900416101561055a57600080fd5b8154600160a060020a0316151561059257815473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0384161782555b61059c8483610872565b6001830154909150600067010000000000000090910463ffffffff161115610625576001828101548154869291670100000000000000900463ffffffff169081106105e357fe5b6000918252602090912001556001820154600280548392670100000000000000900463ffffffff1690811061061457fe5b600091825260209091200155610698565b600180548082016106368382610b1f565b50600091825260209091200184905560028054600181016106578382610b1f565b50600091825260209091200181905560018054908301805463ffffffff909216670100000000000000026affffffff00000000000000199092169190911790555b50505050565b6000806106aa83610789565b15156106b557600080fd5b6106be836103a6565b15156106c957600080fd5b6000838152602081905260409020805490925033600160a060020a039081169116146106f457600080fd5b6001828101546601000000000000900460ff161461071157600080fd5b600182015465ffffffffffff438116918116600a0116111561073257600080fd5b50805460a060020a90046bffffffffffffffffffffffff1661075383610922565b600160a060020a03331681156108fc0282604051600060405180830381858888f19350505050151561078457600080fd5b505050565b60009081526020819052604081205460a060020a90046bffffffffffffffffffffffff161190565b60006107bc826103a6565b15156107c757600080fd5b506000818152602081905260409020805433600160a060020a039081169116146107f057600080fd5b6001818101546601000000000000900460ff161461080d57600080fd5b60018101805466ffffffffffffff191690556108298282610872565b600182810154815467010000000000000090910463ffffffff1690811061084c57fe5b6000918252602090912001555050565b600281565b670de0b6b3a764000081565b600a81565b6000806002846000604051602001526040519081526020908101906040518083038160008661646e5a03f115156108a857600080fd5b5050604051805160018501549454660100000000000090950460ff167c01000000000000000000000000000000000000000000000000000000000264010000000060a060020a968790046bffffffffffffffffffffffff16049095026c010000000000000000000000009091041793909317949350505050565b600081815260208190526040812080546001916002918490819060a060020a90046bffffffffffffffffffffffff1681901161095d57600080fd5b84546000901161096957fe5b60018360010160079054906101000a900463ffffffff16039150600185805490501180156109a2575084546000190163ffffffff831614155b15610a86578454859060001981019081106109b957fe5b906000526020600020900154858363ffffffff168154811015156109d957fe5b6000918252602090912001558354849060001981019081106109f757fe5b906000526020600020900154848363ffffffff16815481101515610a1757fe5b6000918252602090912001558454859063ffffffff8416908110610a3757fe5b600091825260208083209190910154808352908890526040909120600190810180546affffffff00000000000000191667010000000000000092860163ffffffff169290920291909117905590505b845485906000198101908110610a9857fe5b60009182526020822001558454610ab3866000198301610b1f565b50835484906000198101908110610ac657fe5b60009182526020822001558354610ae1856000198301610b1f565b50505060009485525050506020526040812090815560010180546affffffffffffffffffffff19169055565b60206040519081016040526000815290565b81548183558181151161078457600083815260209020610784918101908301610b5c91905b80821115610b585760008155600101610b44565b5090565b905600a165627a7a72305820095c2d39dde80a5dc6c29d1f4a9c92134592dda142b53fbadf124f6977cbd6920029`
 
 // DeployValidators deploys a new Ethereum contract, binding an instance of Validators to it.
 func DeployValidators(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Validators, error) {
@@ -265,188 +265,198 @@ func (_Validators *ValidatorsCallerSession) PAUSE_CAUSE_VOLUNTARILY() (uint8, er
 
 // GetCompactedValidators is a free data retrieval call binding the contract method 0x181a8d68.
 //
-// Solidity: function getCompactedValidators() constant returns(bytes32[])
-func (_Validators *ValidatorsCaller) GetCompactedValidators(opts *bind.CallOpts) ([][32]byte, error) {
-	var (
-		ret0 = new([][32]byte)
-	)
-	out := ret0
+// Solidity: function getCompactedValidators() constant returns(ValidatorsCompacted bytes32[], ValidatorsIndex bytes32[])
+func (_Validators *ValidatorsCaller) GetCompactedValidators(opts *bind.CallOpts) (struct {
+	ValidatorsCompacted [][32]byte
+	ValidatorsIndex     [][32]byte
+}, error) {
+	ret := new(struct {
+		ValidatorsCompacted [][32]byte
+		ValidatorsIndex     [][32]byte
+	})
+	out := ret
 	err := _Validators.contract.Call(opts, out, "getCompactedValidators")
-	return *ret0, err
+	return *ret, err
 }
 
 // GetCompactedValidators is a free data retrieval call binding the contract method 0x181a8d68.
 //
-// Solidity: function getCompactedValidators() constant returns(bytes32[])
-func (_Validators *ValidatorsSession) GetCompactedValidators() ([][32]byte, error) {
+// Solidity: function getCompactedValidators() constant returns(ValidatorsCompacted bytes32[], ValidatorsIndex bytes32[])
+func (_Validators *ValidatorsSession) GetCompactedValidators() (struct {
+	ValidatorsCompacted [][32]byte
+	ValidatorsIndex     [][32]byte
+}, error) {
 	return _Validators.Contract.GetCompactedValidators(&_Validators.CallOpts)
 }
 
 // GetCompactedValidators is a free data retrieval call binding the contract method 0x181a8d68.
 //
-// Solidity: function getCompactedValidators() constant returns(bytes32[])
-func (_Validators *ValidatorsCallerSession) GetCompactedValidators() ([][32]byte, error) {
+// Solidity: function getCompactedValidators() constant returns(ValidatorsCompacted bytes32[], ValidatorsIndex bytes32[])
+func (_Validators *ValidatorsCallerSession) GetCompactedValidators() (struct {
+	ValidatorsCompacted [][32]byte
+	ValidatorsIndex     [][32]byte
+}, error) {
 	return _Validators.Contract.GetCompactedValidators(&_Validators.CallOpts)
 }
 
-// GetNodeAddr is a free data retrieval call binding the contract method 0x20aca18c.
+// GetNodeAddr is a free data retrieval call binding the contract method 0x0b8604fc.
 //
-// Solidity: function getNodeAddr(vAddr address) constant returns(address)
-func (_Validators *ValidatorsCaller) GetNodeAddr(opts *bind.CallOpts, vAddr common.Address) (common.Address, error) {
+// Solidity: function getNodeAddr(vPub bytes32) constant returns(address)
+func (_Validators *ValidatorsCaller) GetNodeAddr(opts *bind.CallOpts, vPub [32]byte) (common.Address, error) {
 	var (
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Validators.contract.Call(opts, out, "getNodeAddr", vAddr)
+	err := _Validators.contract.Call(opts, out, "getNodeAddr", vPub)
 	return *ret0, err
 }
 
-// GetNodeAddr is a free data retrieval call binding the contract method 0x20aca18c.
+// GetNodeAddr is a free data retrieval call binding the contract method 0x0b8604fc.
 //
-// Solidity: function getNodeAddr(vAddr address) constant returns(address)
-func (_Validators *ValidatorsSession) GetNodeAddr(vAddr common.Address) (common.Address, error) {
-	return _Validators.Contract.GetNodeAddr(&_Validators.CallOpts, vAddr)
+// Solidity: function getNodeAddr(vPub bytes32) constant returns(address)
+func (_Validators *ValidatorsSession) GetNodeAddr(vPub [32]byte) (common.Address, error) {
+	return _Validators.Contract.GetNodeAddr(&_Validators.CallOpts, vPub)
 }
 
-// GetNodeAddr is a free data retrieval call binding the contract method 0x20aca18c.
+// GetNodeAddr is a free data retrieval call binding the contract method 0x0b8604fc.
 //
-// Solidity: function getNodeAddr(vAddr address) constant returns(address)
-func (_Validators *ValidatorsCallerSession) GetNodeAddr(vAddr common.Address) (common.Address, error) {
-	return _Validators.Contract.GetNodeAddr(&_Validators.CallOpts, vAddr)
+// Solidity: function getNodeAddr(vPub bytes32) constant returns(address)
+func (_Validators *ValidatorsCallerSession) GetNodeAddr(vPub [32]byte) (common.Address, error) {
+	return _Validators.Contract.GetNodeAddr(&_Validators.CallOpts, vPub)
 }
 
-// HasDeposit is a free data retrieval call binding the contract method 0x1c48c7ec.
+// HasDeposit is a free data retrieval call binding the contract method 0x92c8a966.
 //
-// Solidity: function hasDeposit(vAddr address) constant returns(bool)
-func (_Validators *ValidatorsCaller) HasDeposit(opts *bind.CallOpts, vAddr common.Address) (bool, error) {
+// Solidity: function hasDeposit(vPub bytes32) constant returns(bool)
+func (_Validators *ValidatorsCaller) HasDeposit(opts *bind.CallOpts, vPub [32]byte) (bool, error) {
 	var (
 		ret0 = new(bool)
 	)
 	out := ret0
-	err := _Validators.contract.Call(opts, out, "hasDeposit", vAddr)
+	err := _Validators.contract.Call(opts, out, "hasDeposit", vPub)
 	return *ret0, err
 }
 
-// HasDeposit is a free data retrieval call binding the contract method 0x1c48c7ec.
+// HasDeposit is a free data retrieval call binding the contract method 0x92c8a966.
 //
-// Solidity: function hasDeposit(vAddr address) constant returns(bool)
-func (_Validators *ValidatorsSession) HasDeposit(vAddr common.Address) (bool, error) {
-	return _Validators.Contract.HasDeposit(&_Validators.CallOpts, vAddr)
+// Solidity: function hasDeposit(vPub bytes32) constant returns(bool)
+func (_Validators *ValidatorsSession) HasDeposit(vPub [32]byte) (bool, error) {
+	return _Validators.Contract.HasDeposit(&_Validators.CallOpts, vPub)
 }
 
-// HasDeposit is a free data retrieval call binding the contract method 0x1c48c7ec.
+// HasDeposit is a free data retrieval call binding the contract method 0x92c8a966.
 //
-// Solidity: function hasDeposit(vAddr address) constant returns(bool)
-func (_Validators *ValidatorsCallerSession) HasDeposit(vAddr common.Address) (bool, error) {
-	return _Validators.Contract.HasDeposit(&_Validators.CallOpts, vAddr)
+// Solidity: function hasDeposit(vPub bytes32) constant returns(bool)
+func (_Validators *ValidatorsCallerSession) HasDeposit(vPub [32]byte) (bool, error) {
+	return _Validators.Contract.HasDeposit(&_Validators.CallOpts, vPub)
 }
 
-// IsPaused is a free data retrieval call binding the contract method 0x5b14f183.
+// IsPaused is a free data retrieval call binding the contract method 0x241b71bb.
 //
-// Solidity: function isPaused(vAddr address) constant returns(bool)
-func (_Validators *ValidatorsCaller) IsPaused(opts *bind.CallOpts, vAddr common.Address) (bool, error) {
+// Solidity: function isPaused(vPub bytes32) constant returns(bool)
+func (_Validators *ValidatorsCaller) IsPaused(opts *bind.CallOpts, vPub [32]byte) (bool, error) {
 	var (
 		ret0 = new(bool)
 	)
 	out := ret0
-	err := _Validators.contract.Call(opts, out, "isPaused", vAddr)
+	err := _Validators.contract.Call(opts, out, "isPaused", vPub)
 	return *ret0, err
 }
 
-// IsPaused is a free data retrieval call binding the contract method 0x5b14f183.
+// IsPaused is a free data retrieval call binding the contract method 0x241b71bb.
 //
-// Solidity: function isPaused(vAddr address) constant returns(bool)
-func (_Validators *ValidatorsSession) IsPaused(vAddr common.Address) (bool, error) {
-	return _Validators.Contract.IsPaused(&_Validators.CallOpts, vAddr)
+// Solidity: function isPaused(vPub bytes32) constant returns(bool)
+func (_Validators *ValidatorsSession) IsPaused(vPub [32]byte) (bool, error) {
+	return _Validators.Contract.IsPaused(&_Validators.CallOpts, vPub)
 }
 
-// IsPaused is a free data retrieval call binding the contract method 0x5b14f183.
+// IsPaused is a free data retrieval call binding the contract method 0x241b71bb.
 //
-// Solidity: function isPaused(vAddr address) constant returns(bool)
-func (_Validators *ValidatorsCallerSession) IsPaused(vAddr common.Address) (bool, error) {
-	return _Validators.Contract.IsPaused(&_Validators.CallOpts, vAddr)
+// Solidity: function isPaused(vPub bytes32) constant returns(bool)
+func (_Validators *ValidatorsCallerSession) IsPaused(vPub [32]byte) (bool, error) {
+	return _Validators.Contract.IsPaused(&_Validators.CallOpts, vPub)
 }
 
-// AddDeposit is a paid mutator transaction binding the contract method 0x2f1c563e.
+// AddDeposit is a paid mutator transaction binding the contract method 0x7e332a46.
 //
-// Solidity: function addDeposit(vAddr address, nodeAddr address) returns()
-func (_Validators *ValidatorsTransactor) AddDeposit(opts *bind.TransactOpts, vAddr common.Address, nodeAddr common.Address) (*types.Transaction, error) {
-	return _Validators.contract.Transact(opts, "addDeposit", vAddr, nodeAddr)
+// Solidity: function addDeposit(vPub bytes32, nodeAddr address) returns()
+func (_Validators *ValidatorsTransactor) AddDeposit(opts *bind.TransactOpts, vPub [32]byte, nodeAddr common.Address) (*types.Transaction, error) {
+	return _Validators.contract.Transact(opts, "addDeposit", vPub, nodeAddr)
 }
 
-// AddDeposit is a paid mutator transaction binding the contract method 0x2f1c563e.
+// AddDeposit is a paid mutator transaction binding the contract method 0x7e332a46.
 //
-// Solidity: function addDeposit(vAddr address, nodeAddr address) returns()
-func (_Validators *ValidatorsSession) AddDeposit(vAddr common.Address, nodeAddr common.Address) (*types.Transaction, error) {
-	return _Validators.Contract.AddDeposit(&_Validators.TransactOpts, vAddr, nodeAddr)
+// Solidity: function addDeposit(vPub bytes32, nodeAddr address) returns()
+func (_Validators *ValidatorsSession) AddDeposit(vPub [32]byte, nodeAddr common.Address) (*types.Transaction, error) {
+	return _Validators.Contract.AddDeposit(&_Validators.TransactOpts, vPub, nodeAddr)
 }
 
-// AddDeposit is a paid mutator transaction binding the contract method 0x2f1c563e.
+// AddDeposit is a paid mutator transaction binding the contract method 0x7e332a46.
 //
-// Solidity: function addDeposit(vAddr address, nodeAddr address) returns()
-func (_Validators *ValidatorsTransactorSession) AddDeposit(vAddr common.Address, nodeAddr common.Address) (*types.Transaction, error) {
-	return _Validators.Contract.AddDeposit(&_Validators.TransactOpts, vAddr, nodeAddr)
+// Solidity: function addDeposit(vPub bytes32, nodeAddr address) returns()
+func (_Validators *ValidatorsTransactorSession) AddDeposit(vPub [32]byte, nodeAddr common.Address) (*types.Transaction, error) {
+	return _Validators.Contract.AddDeposit(&_Validators.TransactOpts, vPub, nodeAddr)
 }
 
-// PauseValidation is a paid mutator transaction binding the contract method 0x6393ac7b.
+// PauseValidation is a paid mutator transaction binding the contract method 0x79354ef5.
 //
-// Solidity: function pauseValidation(vAddr address, vFrom address, cause uint8) returns()
-func (_Validators *ValidatorsTransactor) PauseValidation(opts *bind.TransactOpts, vAddr common.Address, vFrom common.Address, cause uint8) (*types.Transaction, error) {
-	return _Validators.contract.Transact(opts, "pauseValidation", vAddr, vFrom, cause)
+// Solidity: function pauseValidation(vPub bytes32, vFrom bytes32, cause uint8) returns()
+func (_Validators *ValidatorsTransactor) PauseValidation(opts *bind.TransactOpts, vPub [32]byte, vFrom [32]byte, cause uint8) (*types.Transaction, error) {
+	return _Validators.contract.Transact(opts, "pauseValidation", vPub, vFrom, cause)
 }
 
-// PauseValidation is a paid mutator transaction binding the contract method 0x6393ac7b.
+// PauseValidation is a paid mutator transaction binding the contract method 0x79354ef5.
 //
-// Solidity: function pauseValidation(vAddr address, vFrom address, cause uint8) returns()
-func (_Validators *ValidatorsSession) PauseValidation(vAddr common.Address, vFrom common.Address, cause uint8) (*types.Transaction, error) {
-	return _Validators.Contract.PauseValidation(&_Validators.TransactOpts, vAddr, vFrom, cause)
+// Solidity: function pauseValidation(vPub bytes32, vFrom bytes32, cause uint8) returns()
+func (_Validators *ValidatorsSession) PauseValidation(vPub [32]byte, vFrom [32]byte, cause uint8) (*types.Transaction, error) {
+	return _Validators.Contract.PauseValidation(&_Validators.TransactOpts, vPub, vFrom, cause)
 }
 
-// PauseValidation is a paid mutator transaction binding the contract method 0x6393ac7b.
+// PauseValidation is a paid mutator transaction binding the contract method 0x79354ef5.
 //
-// Solidity: function pauseValidation(vAddr address, vFrom address, cause uint8) returns()
-func (_Validators *ValidatorsTransactorSession) PauseValidation(vAddr common.Address, vFrom common.Address, cause uint8) (*types.Transaction, error) {
-	return _Validators.Contract.PauseValidation(&_Validators.TransactOpts, vAddr, vFrom, cause)
+// Solidity: function pauseValidation(vPub bytes32, vFrom bytes32, cause uint8) returns()
+func (_Validators *ValidatorsTransactorSession) PauseValidation(vPub [32]byte, vFrom [32]byte, cause uint8) (*types.Transaction, error) {
+	return _Validators.Contract.PauseValidation(&_Validators.TransactOpts, vPub, vFrom, cause)
 }
 
-// ResumeValidation is a paid mutator transaction binding the contract method 0xd67d0a3a.
+// ResumeValidation is a paid mutator transaction binding the contract method 0x9da0e3e3.
 //
-// Solidity: function resumeValidation(vAddr address) returns()
-func (_Validators *ValidatorsTransactor) ResumeValidation(opts *bind.TransactOpts, vAddr common.Address) (*types.Transaction, error) {
-	return _Validators.contract.Transact(opts, "resumeValidation", vAddr)
+// Solidity: function resumeValidation(vPub bytes32) returns()
+func (_Validators *ValidatorsTransactor) ResumeValidation(opts *bind.TransactOpts, vPub [32]byte) (*types.Transaction, error) {
+	return _Validators.contract.Transact(opts, "resumeValidation", vPub)
 }
 
-// ResumeValidation is a paid mutator transaction binding the contract method 0xd67d0a3a.
+// ResumeValidation is a paid mutator transaction binding the contract method 0x9da0e3e3.
 //
-// Solidity: function resumeValidation(vAddr address) returns()
-func (_Validators *ValidatorsSession) ResumeValidation(vAddr common.Address) (*types.Transaction, error) {
-	return _Validators.Contract.ResumeValidation(&_Validators.TransactOpts, vAddr)
+// Solidity: function resumeValidation(vPub bytes32) returns()
+func (_Validators *ValidatorsSession) ResumeValidation(vPub [32]byte) (*types.Transaction, error) {
+	return _Validators.Contract.ResumeValidation(&_Validators.TransactOpts, vPub)
 }
 
-// ResumeValidation is a paid mutator transaction binding the contract method 0xd67d0a3a.
+// ResumeValidation is a paid mutator transaction binding the contract method 0x9da0e3e3.
 //
-// Solidity: function resumeValidation(vAddr address) returns()
-func (_Validators *ValidatorsTransactorSession) ResumeValidation(vAddr common.Address) (*types.Transaction, error) {
-	return _Validators.Contract.ResumeValidation(&_Validators.TransactOpts, vAddr)
+// Solidity: function resumeValidation(vPub bytes32) returns()
+func (_Validators *ValidatorsTransactorSession) ResumeValidation(vPub [32]byte) (*types.Transaction, error) {
+	return _Validators.Contract.ResumeValidation(&_Validators.TransactOpts, vPub)
 }
 
-// Withdraw is a paid mutator transaction binding the contract method 0x51cff8d9.
+// Withdraw is a paid mutator transaction binding the contract method 0x8e19899e.
 //
-// Solidity: function withdraw(vAddr address) returns()
-func (_Validators *ValidatorsTransactor) Withdraw(opts *bind.TransactOpts, vAddr common.Address) (*types.Transaction, error) {
-	return _Validators.contract.Transact(opts, "withdraw", vAddr)
+// Solidity: function withdraw(vPub bytes32) returns()
+func (_Validators *ValidatorsTransactor) Withdraw(opts *bind.TransactOpts, vPub [32]byte) (*types.Transaction, error) {
+	return _Validators.contract.Transact(opts, "withdraw", vPub)
 }
 
-// Withdraw is a paid mutator transaction binding the contract method 0x51cff8d9.
+// Withdraw is a paid mutator transaction binding the contract method 0x8e19899e.
 //
-// Solidity: function withdraw(vAddr address) returns()
-func (_Validators *ValidatorsSession) Withdraw(vAddr common.Address) (*types.Transaction, error) {
-	return _Validators.Contract.Withdraw(&_Validators.TransactOpts, vAddr)
+// Solidity: function withdraw(vPub bytes32) returns()
+func (_Validators *ValidatorsSession) Withdraw(vPub [32]byte) (*types.Transaction, error) {
+	return _Validators.Contract.Withdraw(&_Validators.TransactOpts, vPub)
 }
 
-// Withdraw is a paid mutator transaction binding the contract method 0x51cff8d9.
+// Withdraw is a paid mutator transaction binding the contract method 0x8e19899e.
 //
-// Solidity: function withdraw(vAddr address) returns()
-func (_Validators *ValidatorsTransactorSession) Withdraw(vAddr common.Address) (*types.Transaction, error) {
-	return _Validators.Contract.Withdraw(&_Validators.TransactOpts, vAddr)
+// Solidity: function withdraw(vPub bytes32) returns()
+func (_Validators *ValidatorsTransactorSession) Withdraw(vPub [32]byte) (*types.Transaction, error) {
+	return _Validators.Contract.Withdraw(&_Validators.TransactOpts, vPub)
 }

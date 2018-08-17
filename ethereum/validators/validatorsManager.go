@@ -30,8 +30,8 @@ import (
 )
 
 var (
-	MainNetAddress = common.HexToAddress("0xb6b29ef90120bec597939e0eda6b8a9164f75deb")
-	TestNetAddress = common.HexToAddress("0xb6b29ef90120bec597939e0eda6b8a9164f75deb")
+	MainNetAddress = common.HexToAddress("0x9e05b78ea853a4b093694645561c4bfc953a6f62")
+	TestNetAddress = common.HexToAddress("0x9e05b78ea853a4b093694645561c4bfc953a6f62")
 )
 
 type ValidatorsManager struct {

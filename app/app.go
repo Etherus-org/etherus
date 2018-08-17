@@ -45,6 +45,8 @@ type EthermintApplication struct {
 	validators *validators.ValidatorsManager
 
 	myValidator *common.Address
+
+	currentBlockValidator *abciTypes.Validator
 }
 
 // NewEthermintApplication creates a fully initialised instance of EthermintApplication
@@ -190,6 +192,9 @@ func (app *EthermintApplication) BeginBlock(beginBlock abciTypes.RequestBeginBlo
 	validator := beginBlock.Header.Proposer
 	validatorAddress := common.BytesToAddress(validator.Address)
 	app.logger.Debug("Proposer address is ", "validatorAddress", validatorAddress)
+	if validator.Power > 0 {
+		app.currentBlockValidator = &validator
+	}
 
 	if err := app.backend.InitEthState(app.Receiver()); err != nil {
 		panic(err)
@@ -225,6 +230,7 @@ func (app *EthermintApplication) Commit() abciTypes.ResponseCommit {
 	}
 
 	app.checkTxState = state.Copy()
+	app.currentBlockValidator = nil
 	return abciTypes.ResponseCommit{
 		Data: blockHash[:],
 	}
