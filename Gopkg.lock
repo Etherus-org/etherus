@@ -52,13 +52,13 @@
   revision = "95f809107225be108efcf10a3509e4ea6ceef3c4"
 
 [[projects]]
-  digest = "1:b96e1b4e9c8f2abb6f6748b5fbc6e1efac141a8a8d2c155eda4065ad178919c6"
+  digest = "1:0fbf7e17e3e02b634107111ebf746689c9d708202195ba7e22fca4c08a2acdb0"
   name = "github.com/ethereum/go-ethereum"
   packages = ["."]
   pruneopts = ""
-  revision = "d9e23666755ebeb632dc8c3f902650971594e5a7"
+  revision = "683924fb7c976edd33b3e42b9cdcf20d517f8501"
   source = "github.com/tendermint/go-ethereum.git"
-  version = "f1.6.7"
+  version = "f1.8.6"
 
 [[projects]]
   digest = "1:fdf5169073fb0ad6dc12a70c249145e30f4058647bea25f0abd48b6d9f228a11"
@@ -451,6 +451,8 @@
     "github.com/tendermint/go-amino",
     "github.com/tendermint/tendermint/abci/server",
     "github.com/tendermint/tendermint/abci/types",
+    "github.com/tendermint/tendermint/crypto",
+    "github.com/tendermint/tendermint/crypto/tmhash",
     "github.com/tendermint/tendermint/libs/common",
     "github.com/tendermint/tendermint/libs/log",
     "github.com/tendermint/tendermint/rpc/core/types",

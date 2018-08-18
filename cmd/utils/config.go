@@ -7,6 +7,7 @@ import (
 	cli "gopkg.in/urfave/cli.v1"
 
 	ethUtils "github.com/ethereum/go-ethereum/cmd/utils"
+	"github.com/ethereum/go-ethereum/consensus/ethash"
 	"github.com/ethereum/go-ethereum/eth"
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/params"
@@ -109,8 +110,8 @@ func SetEthermintNodeConfig(cfg *node.Config) {
 // SetEthermintEthConfig takes a ethereum configuration and applies ethermint specific configuration
 // #unstable
 func SetEthermintEthConfig(cfg *eth.Config) {
-	cfg.MaxPeers = 0
-	cfg.PowFake = true
+	//cfg.MaxPeers = 0
+	cfg.Ethash.PowMode = ethash.ModeFake
 }
 
 // MakeDataDir retrieves the currently requested data directory

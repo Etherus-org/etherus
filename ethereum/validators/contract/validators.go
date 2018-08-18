@@ -29,13 +29,14 @@ func DeployValidators(auth *bind.TransactOpts, backend bind.ContractBackend) (co
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
-	return address, tx, &Validators{ValidatorsCaller: ValidatorsCaller{contract: contract}, ValidatorsTransactor: ValidatorsTransactor{contract: contract}}, nil
+	return address, tx, &Validators{ValidatorsCaller: ValidatorsCaller{contract: contract}, ValidatorsTransactor: ValidatorsTransactor{contract: contract}, ValidatorsFilterer: ValidatorsFilterer{contract: contract}}, nil
 }
 
 // Validators is an auto generated Go binding around an Ethereum contract.
 type Validators struct {
 	ValidatorsCaller     // Read-only binding to the contract
 	ValidatorsTransactor // Write-only binding to the contract
+	ValidatorsFilterer   // Log filterer for contract events
 }
 
 // ValidatorsCaller is an auto generated read-only Go binding around an Ethereum contract.
@@ -45,6 +46,11 @@ type ValidatorsCaller struct {
 
 // ValidatorsTransactor is an auto generated write-only Go binding around an Ethereum contract.
 type ValidatorsTransactor struct {
+	contract *bind.BoundContract // Generic contract wrapper for the low level calls
+}
+
+// ValidatorsFilterer is an auto generated log filtering Go binding around an Ethereum contract events.
+type ValidatorsFilterer struct {
 	contract *bind.BoundContract // Generic contract wrapper for the low level calls
 }
 
@@ -87,16 +93,16 @@ type ValidatorsTransactorRaw struct {
 
 // NewValidators creates a new instance of Validators, bound to a specific deployed contract.
 func NewValidators(address common.Address, backend bind.ContractBackend) (*Validators, error) {
-	contract, err := bindValidators(address, backend, backend)
+	contract, err := bindValidators(address, backend, backend, backend)
 	if err != nil {
 		return nil, err
 	}
-	return &Validators{ValidatorsCaller: ValidatorsCaller{contract: contract}, ValidatorsTransactor: ValidatorsTransactor{contract: contract}}, nil
+	return &Validators{ValidatorsCaller: ValidatorsCaller{contract: contract}, ValidatorsTransactor: ValidatorsTransactor{contract: contract}, ValidatorsFilterer: ValidatorsFilterer{contract: contract}}, nil
 }
 
 // NewValidatorsCaller creates a new read-only instance of Validators, bound to a specific deployed contract.
 func NewValidatorsCaller(address common.Address, caller bind.ContractCaller) (*ValidatorsCaller, error) {
-	contract, err := bindValidators(address, caller, nil)
+	contract, err := bindValidators(address, caller, nil, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -105,20 +111,29 @@ func NewValidatorsCaller(address common.Address, caller bind.ContractCaller) (*V
 
 // NewValidatorsTransactor creates a new write-only instance of Validators, bound to a specific deployed contract.
 func NewValidatorsTransactor(address common.Address, transactor bind.ContractTransactor) (*ValidatorsTransactor, error) {
-	contract, err := bindValidators(address, nil, transactor)
+	contract, err := bindValidators(address, nil, transactor, nil)
 	if err != nil {
 		return nil, err
 	}
 	return &ValidatorsTransactor{contract: contract}, nil
 }
 
+// NewValidatorsFilterer creates a new log filterer instance of Validators, bound to a specific deployed contract.
+func NewValidatorsFilterer(address common.Address, filterer bind.ContractFilterer) (*ValidatorsFilterer, error) {
+	contract, err := bindValidators(address, nil, nil, filterer)
+	if err != nil {
+		return nil, err
+	}
+	return &ValidatorsFilterer{contract: contract}, nil
+}
+
 // bindValidators binds a generic wrapper to an already deployed contract.
-func bindValidators(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor) (*bind.BoundContract, error) {
+func bindValidators(address common.Address, caller bind.ContractCaller, transactor bind.ContractTransactor, filterer bind.ContractFilterer) (*bind.BoundContract, error) {
 	parsed, err := abi.JSON(strings.NewReader(ValidatorsABI))
 	if err != nil {
 		return nil, err
 	}
-	return bind.NewBoundContract(address, parsed, caller, transactor), nil
+	return bind.NewBoundContract(address, parsed, caller, transactor, filterer), nil
 }
 
 // Call invokes the (constant) contract method with params as input values and
@@ -159,10 +174,10 @@ func (_Validators *ValidatorsTransactorRaw) Transact(opts *bind.TransactOpts, me
 	return _Validators.Contract.contract.Transact(opts, method, params...)
 }
 
-// DEPOSIT_LOCK_BLOCKS is a free data retrieval call binding the contract method 0xfaeedb61.
+// DEPOSITLOCKBLOCKS is a free data retrieval call binding the contract method 0xfaeedb61.
 //
 // Solidity: function DEPOSIT_LOCK_BLOCKS() constant returns(uint48)
-func (_Validators *ValidatorsCaller) DEPOSIT_LOCK_BLOCKS(opts *bind.CallOpts) (*big.Int, error) {
+func (_Validators *ValidatorsCaller) DEPOSITLOCKBLOCKS(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
@@ -171,24 +186,24 @@ func (_Validators *ValidatorsCaller) DEPOSIT_LOCK_BLOCKS(opts *bind.CallOpts) (*
 	return *ret0, err
 }
 
-// DEPOSIT_LOCK_BLOCKS is a free data retrieval call binding the contract method 0xfaeedb61.
+// DEPOSITLOCKBLOCKS is a free data retrieval call binding the contract method 0xfaeedb61.
 //
 // Solidity: function DEPOSIT_LOCK_BLOCKS() constant returns(uint48)
-func (_Validators *ValidatorsSession) DEPOSIT_LOCK_BLOCKS() (*big.Int, error) {
-	return _Validators.Contract.DEPOSIT_LOCK_BLOCKS(&_Validators.CallOpts)
+func (_Validators *ValidatorsSession) DEPOSITLOCKBLOCKS() (*big.Int, error) {
+	return _Validators.Contract.DEPOSITLOCKBLOCKS(&_Validators.CallOpts)
 }
 
-// DEPOSIT_LOCK_BLOCKS is a free data retrieval call binding the contract method 0xfaeedb61.
+// DEPOSITLOCKBLOCKS is a free data retrieval call binding the contract method 0xfaeedb61.
 //
 // Solidity: function DEPOSIT_LOCK_BLOCKS() constant returns(uint48)
-func (_Validators *ValidatorsCallerSession) DEPOSIT_LOCK_BLOCKS() (*big.Int, error) {
-	return _Validators.Contract.DEPOSIT_LOCK_BLOCKS(&_Validators.CallOpts)
+func (_Validators *ValidatorsCallerSession) DEPOSITLOCKBLOCKS() (*big.Int, error) {
+	return _Validators.Contract.DEPOSITLOCKBLOCKS(&_Validators.CallOpts)
 }
 
-// MIN_DEPOSIT is a free data retrieval call binding the contract method 0xe1e158a5.
+// MINDEPOSIT is a free data retrieval call binding the contract method 0xe1e158a5.
 //
 // Solidity: function MIN_DEPOSIT() constant returns(uint256)
-func (_Validators *ValidatorsCaller) MIN_DEPOSIT(opts *bind.CallOpts) (*big.Int, error) {
+func (_Validators *ValidatorsCaller) MINDEPOSIT(opts *bind.CallOpts) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
@@ -197,24 +212,24 @@ func (_Validators *ValidatorsCaller) MIN_DEPOSIT(opts *bind.CallOpts) (*big.Int,
 	return *ret0, err
 }
 
-// MIN_DEPOSIT is a free data retrieval call binding the contract method 0xe1e158a5.
+// MINDEPOSIT is a free data retrieval call binding the contract method 0xe1e158a5.
 //
 // Solidity: function MIN_DEPOSIT() constant returns(uint256)
-func (_Validators *ValidatorsSession) MIN_DEPOSIT() (*big.Int, error) {
-	return _Validators.Contract.MIN_DEPOSIT(&_Validators.CallOpts)
+func (_Validators *ValidatorsSession) MINDEPOSIT() (*big.Int, error) {
+	return _Validators.Contract.MINDEPOSIT(&_Validators.CallOpts)
 }
 
-// MIN_DEPOSIT is a free data retrieval call binding the contract method 0xe1e158a5.
+// MINDEPOSIT is a free data retrieval call binding the contract method 0xe1e158a5.
 //
 // Solidity: function MIN_DEPOSIT() constant returns(uint256)
-func (_Validators *ValidatorsCallerSession) MIN_DEPOSIT() (*big.Int, error) {
-	return _Validators.Contract.MIN_DEPOSIT(&_Validators.CallOpts)
+func (_Validators *ValidatorsCallerSession) MINDEPOSIT() (*big.Int, error) {
+	return _Validators.Contract.MINDEPOSIT(&_Validators.CallOpts)
 }
 
-// PAUSE_CAUSE_PUNISHMENT is a free data retrieval call binding the contract method 0xbe1d05c2.
+// PAUSECAUSEPUNISHMENT is a free data retrieval call binding the contract method 0xbe1d05c2.
 //
 // Solidity: function PAUSE_CAUSE_PUNISHMENT() constant returns(uint8)
-func (_Validators *ValidatorsCaller) PAUSE_CAUSE_PUNISHMENT(opts *bind.CallOpts) (uint8, error) {
+func (_Validators *ValidatorsCaller) PAUSECAUSEPUNISHMENT(opts *bind.CallOpts) (uint8, error) {
 	var (
 		ret0 = new(uint8)
 	)
@@ -223,24 +238,24 @@ func (_Validators *ValidatorsCaller) PAUSE_CAUSE_PUNISHMENT(opts *bind.CallOpts)
 	return *ret0, err
 }
 
-// PAUSE_CAUSE_PUNISHMENT is a free data retrieval call binding the contract method 0xbe1d05c2.
+// PAUSECAUSEPUNISHMENT is a free data retrieval call binding the contract method 0xbe1d05c2.
 //
 // Solidity: function PAUSE_CAUSE_PUNISHMENT() constant returns(uint8)
-func (_Validators *ValidatorsSession) PAUSE_CAUSE_PUNISHMENT() (uint8, error) {
-	return _Validators.Contract.PAUSE_CAUSE_PUNISHMENT(&_Validators.CallOpts)
+func (_Validators *ValidatorsSession) PAUSECAUSEPUNISHMENT() (uint8, error) {
+	return _Validators.Contract.PAUSECAUSEPUNISHMENT(&_Validators.CallOpts)
 }
 
-// PAUSE_CAUSE_PUNISHMENT is a free data retrieval call binding the contract method 0xbe1d05c2.
+// PAUSECAUSEPUNISHMENT is a free data retrieval call binding the contract method 0xbe1d05c2.
 //
 // Solidity: function PAUSE_CAUSE_PUNISHMENT() constant returns(uint8)
-func (_Validators *ValidatorsCallerSession) PAUSE_CAUSE_PUNISHMENT() (uint8, error) {
-	return _Validators.Contract.PAUSE_CAUSE_PUNISHMENT(&_Validators.CallOpts)
+func (_Validators *ValidatorsCallerSession) PAUSECAUSEPUNISHMENT() (uint8, error) {
+	return _Validators.Contract.PAUSECAUSEPUNISHMENT(&_Validators.CallOpts)
 }
 
-// PAUSE_CAUSE_VOLUNTARILY is a free data retrieval call binding the contract method 0x47fdd5f8.
+// PAUSECAUSEVOLUNTARILY is a free data retrieval call binding the contract method 0x47fdd5f8.
 //
 // Solidity: function PAUSE_CAUSE_VOLUNTARILY() constant returns(uint8)
-func (_Validators *ValidatorsCaller) PAUSE_CAUSE_VOLUNTARILY(opts *bind.CallOpts) (uint8, error) {
+func (_Validators *ValidatorsCaller) PAUSECAUSEVOLUNTARILY(opts *bind.CallOpts) (uint8, error) {
 	var (
 		ret0 = new(uint8)
 	)
@@ -249,18 +264,18 @@ func (_Validators *ValidatorsCaller) PAUSE_CAUSE_VOLUNTARILY(opts *bind.CallOpts
 	return *ret0, err
 }
 
-// PAUSE_CAUSE_VOLUNTARILY is a free data retrieval call binding the contract method 0x47fdd5f8.
+// PAUSECAUSEVOLUNTARILY is a free data retrieval call binding the contract method 0x47fdd5f8.
 //
 // Solidity: function PAUSE_CAUSE_VOLUNTARILY() constant returns(uint8)
-func (_Validators *ValidatorsSession) PAUSE_CAUSE_VOLUNTARILY() (uint8, error) {
-	return _Validators.Contract.PAUSE_CAUSE_VOLUNTARILY(&_Validators.CallOpts)
+func (_Validators *ValidatorsSession) PAUSECAUSEVOLUNTARILY() (uint8, error) {
+	return _Validators.Contract.PAUSECAUSEVOLUNTARILY(&_Validators.CallOpts)
 }
 
-// PAUSE_CAUSE_VOLUNTARILY is a free data retrieval call binding the contract method 0x47fdd5f8.
+// PAUSECAUSEVOLUNTARILY is a free data retrieval call binding the contract method 0x47fdd5f8.
 //
 // Solidity: function PAUSE_CAUSE_VOLUNTARILY() constant returns(uint8)
-func (_Validators *ValidatorsCallerSession) PAUSE_CAUSE_VOLUNTARILY() (uint8, error) {
-	return _Validators.Contract.PAUSE_CAUSE_VOLUNTARILY(&_Validators.CallOpts)
+func (_Validators *ValidatorsCallerSession) PAUSECAUSEVOLUNTARILY() (uint8, error) {
+	return _Validators.Contract.PAUSECAUSEVOLUNTARILY(&_Validators.CallOpts)
 }
 
 // GetCompactedValidators is a free data retrieval call binding the contract method 0x181a8d68.

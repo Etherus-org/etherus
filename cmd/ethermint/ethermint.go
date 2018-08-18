@@ -125,34 +125,37 @@ func startNode(ctx *cli.Context, stack *ethereum.Node) {
 	stack.AccountManager().Subscribe(events)
 
 	go func() {
-		// Create an chain state reader for self-derivation
+		// Create a chain state reader for self-derivation
 		rpcClient, err := stack.Attach()
 		if err != nil {
 			ethUtils.Fatalf("Failed to attach to self: %v", err)
 		}
 		stateReader := ethclient.NewClient(rpcClient)
 
-		// Open and self derive any wallets already attached
+		// Open any wallets already attached
 		for _, wallet := range stack.AccountManager().Wallets() {
 			if err := wallet.Open(""); err != nil {
 				log.Warn("Failed to open wallet", "url", wallet.URL(), "err", err)
-			} else {
-				wallet.SelfDerive(accounts.DefaultBaseDerivationPath, stateReader)
 			}
 		}
 		// Listen for wallet event till termination
 		for event := range events {
-			if event.Arrive {
+			switch event.Kind {
+			case accounts.WalletArrived:
 				if err := event.Wallet.Open(""); err != nil {
-					log.Warn("New wallet appeared, failed to open", "url",
-						event.Wallet.URL(), "err", err)
-				} else {
-					log.Info("New wallet appeared", "url", event.Wallet.URL(),
-						"status", event.Wallet.Status())
-					event.Wallet.SelfDerive(accounts.DefaultBaseDerivationPath,
-						stateReader)
+					log.Warn("New wallet appeared, failed to open", "url", event.Wallet.URL(), "err", err)
 				}
-			} else {
+			case accounts.WalletOpened:
+				status, _ := event.Wallet.Status()
+				log.Info("New wallet appeared", "url", event.Wallet.URL(), "status", status)
+
+				if event.Wallet.URL().Scheme == "ledger" {
+					event.Wallet.SelfDerive(accounts.DefaultLedgerBaseDerivationPath, stateReader)
+				} else {
+					event.Wallet.SelfDerive(accounts.DefaultBaseDerivationPath, stateReader)
+				}
+
+			case accounts.WalletDropped:
 				log.Info("Old wallet dropped", "url", event.Wallet.URL())
 				event.Wallet.Close()
 			}

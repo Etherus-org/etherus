@@ -24,7 +24,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/eth"
+	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/ya-enot/etherus/ethereum"
 	"github.com/ya-enot/etherus/ethereum/validators/contract"
 )
@@ -73,7 +74,7 @@ func DeployValidators(transactOpts *bind.TransactOpts, contractBackend bind.Cont
 }
 
 // CreateValidators creates an access to Validators contract
-func CreateValidators(backend *ethereum.Backend) (*ValidatorsManager, error) {
+func CreateValidators(backend *ethereum.Backend, client *rpc.Client) (*ValidatorsManager, error) {
 	// Retrieve the Ethereum service dependency to access the blockchain
 
 	chainConfig := backend.Ethereum().ApiBackend.ChainConfig()
@@ -86,8 +87,8 @@ func CreateValidators(backend *ethereum.Backend) (*ValidatorsManager, error) {
 		return nil, errors.New("Unknown Network Id")
 	}
 
-	ethereum := backend.Ethereum()
-	cb := eth.NewContractBackend(ethereum.ApiBackend)
+	//	ethereum := backend.Ethereum()
+	cb := ethclient.NewClient(client)
 
 	contract, err := NewValidators(&bind.TransactOpts{From: backend.Config().Etherbase}, addr, cb)
 	if err != nil {

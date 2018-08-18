@@ -36,6 +36,7 @@ var (
 		utils.TargetGasLimitFlag,
 		// Gas Price
 		ethUtils.GasPriceFlag,
+		ethUtils.GCModeFlag,
 	}
 
 	rpcFlags = []cli.Flag{

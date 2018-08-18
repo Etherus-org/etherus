@@ -1,8 +1,6 @@
 package ethereum
 
 import (
-	"math/big"
-
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/state"
@@ -123,7 +121,7 @@ func (b *Backend) UpdateHeaderWithTimeInfo(tmHeader abciTypes.Header) {
 
 // GasLimit returns the maximum gas per block
 // #unstable
-func (b *Backend) GasLimit() big.Int {
+func (b *Backend) GasLimit() uint64 {
 	return b.es.GasLimit()
 }
 
@@ -188,6 +186,6 @@ func (NullBlockProcessor) ValidateBody(*ethTypes.Block) error { return nil }
 // ValidateState does not validate anything
 // #unstable
 func (NullBlockProcessor) ValidateState(block, parent *ethTypes.Block, state *state.StateDB,
-	receipts ethTypes.Receipts, usedGas *big.Int) error {
+	receipts ethTypes.Receipts, usedGas uint64) error {
 	return nil
 }

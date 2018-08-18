@@ -73,7 +73,7 @@ func (es *EthState) AccumulateRewards(strategy *emtTypes.Strategy) {
 	es.mtx.Lock()
 	defer es.mtx.Unlock()
 
-	es.work.accumulateRewards(strategy)
+	es.work.accumulateRewards(es.ethereum.ApiBackend.ChainConfig(), strategy)
 }
 
 // Commit and reset the work.
@@ -117,7 +117,7 @@ func (es *EthState) resetWorkState(receiver common.Address) error {
 		parent:       currentBlock,
 		state:        state,
 		txIndex:      0,
-		totalUsedGas: big.NewInt(0),
+		totalUsedGas: 0,
 		gp:           new(core.GasPool).AddGas(ethHeader.GasLimit),
 	}
 	return nil
@@ -132,8 +132,8 @@ func (es *EthState) UpdateHeaderWithTimeInfo(
 	es.work.updateHeaderWithTimeInfo(config, parentTime, numTx)
 }
 
-func (es *EthState) GasLimit() big.Int {
-	return big.Int(*es.work.gp)
+func (es *EthState) GasLimit() uint64 {
+	return uint64(*es.work.gp)
 }
 
 //----------------------------------------------------------------------
@@ -168,14 +168,14 @@ type workState struct {
 	receipts     ethTypes.Receipts
 	allLogs      []*ethTypes.Log
 
-	totalUsedGas *big.Int
+	totalUsedGas uint64
 	gp           *core.GasPool
 }
 
 // nolint: unparam
-func (ws *workState) accumulateRewards(strategy *emtTypes.Strategy) {
+func (ws *workState) accumulateRewards(chainConfig *params.ChainConfig, strategy *emtTypes.Strategy) {
 
-	ethash.AccumulateRewards(ws.state, ws.header, []*ethTypes.Header{})
+	ethash.AccumulateRewards(chainConfig, ws.state, ws.header, []*ethTypes.Header{})
 	ws.header.GasUsed = ws.totalUsedGas
 }
 
@@ -194,7 +194,7 @@ func (ws *workState) deliverTx(blockchain *core.BlockChain, config *eth.Config,
 		ws.state,
 		ws.header,
 		tx,
-		ws.totalUsedGas,
+		&ws.totalUsedGas,
 		vm.Config{EnablePreimageRecording: config.EnablePreimageRecording},
 	)
 	if err != nil {
@@ -219,7 +219,7 @@ func (ws *workState) deliverTx(blockchain *core.BlockChain, config *eth.Config,
 func (ws *workState) commit(blockchain *core.BlockChain, db ethdb.Database) (common.Hash, error) {
 
 	// Commit ethereum state and update the header.
-	hashArray, err := ws.state.CommitTo(db.NewBatch(), false) // XXX: ugh hardforks
+	hashArray, err := ws.state.Commit(false) // XXX: ugh hardforks
 	if err != nil {
 		return common.Hash{}, err
 	}

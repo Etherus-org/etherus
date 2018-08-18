@@ -19,7 +19,7 @@ ignored = ["github.com/ethereum/go-ethereum/*"]
 [[constraint]]
   name = "github.com/ethereum/go-ethereum"
   source = "github.com/tendermint/go-ethereum.git"
-  version = "f1.6.7"
+  version = "f1.8.6"
 
 [[constraint]]
   name = "gopkg.in/urfave/cli.v1"

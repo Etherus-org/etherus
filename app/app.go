@@ -59,7 +59,7 @@ func NewEthermintApplication(backend *ethereum.Backend,
 		return nil, err
 	}
 
-	vlds, err := validators.CreateValidators(backend)
+	vlds, err := validators.CreateValidators(backend, client)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func (app *EthermintApplication) Info(req abciTypes.RequestInfo) abciTypes.Respo
 	blockchain := app.backend.Ethereum().BlockChain()
 	currentBlock := blockchain.CurrentBlock()
 	height := currentBlock.Number()
-	hash := blockchain.LastBlockHash()
+	hash := currentBlock.Hash()
 
 	app.logger.Debug("Info", "height", height) // nolint: errcheck
 
@@ -304,7 +304,7 @@ func (app *EthermintApplication) validateTx(tx *ethTypes.Transaction) abciTypes.
 
 	// Check the transaction doesn't exceed the current block limit gas.
 	gasLimit := app.backend.GasLimit()
-	if gasLimit.Cmp(tx.Gas()) < 0 {
+	if gasLimit < tx.Gas() {
 		return abciTypes.ResponseCheckTx{
 			Code: uint32(cosmosErrors.CodeOutOfGas),
 			Log:  core.ErrGasLimitReached.Error()}
@@ -332,8 +332,12 @@ func (app *EthermintApplication) validateTx(tx *ethTypes.Transaction) abciTypes.
 				currentBalance, tx.Cost())}
 	}
 
-	intrGas := core.IntrinsicGas(tx.Data(), tx.To() == nil, true) // homestead == true
-	if tx.Gas().Cmp(intrGas) < 0 {
+	intrGas, err := core.IntrinsicGas(tx.Data(), tx.To() == nil, true) // homestead == true
+	if err != nil {
+		app.logger.Error("Intrinsic gas failed: ", "err", err)
+		panic("Intrinsic gas failed!")
+	}
+	if tx.Gas() < intrGas {
 		return abciTypes.ResponseCheckTx{
 			Code: uint32(cosmosErrors.CodeUnknownRequest),
 			Log:  core.ErrIntrinsicGas.Error()}
