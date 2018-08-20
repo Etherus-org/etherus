@@ -12,19 +12,32 @@ import (
 	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
 )
 
+const (
+	// txChanSize is the size of channel listening to TxPreEvent.
+	// The number is referenced from the size of tx pool.
+	txChanSize = 4096
+)
+
 //----------------------------------------------------------------------
 // Transactions sent via the go-ethereum rpc need to be routed to tendermint
 
 // listen for txs and forward to tendermint
 func (b *Backend) txBroadcastLoop() {
-	b.txSub = b.ethereum.EventMux().Subscribe(core.TxPreEvent{})
+	b.txCh = make(chan core.TxPreEvent, txChanSize)
+	b.txSub = b.ethereum.TxPool().SubscribeTxPreEvent(b.txCh)
 
 	waitForServer(b.client)
 
-	for obj := range b.txSub.Chan() {
-		event := obj.Data.(core.TxPreEvent)
-		if err := b.BroadcastTx(event.Tx); err != nil {
-			log.Error("Broadcast error", "err", err)
+	for {
+		select {
+		case event := <-b.txCh:
+			if err := b.BroadcastTx(event.Tx); err != nil {
+				log.Error("Broadcast error", "err", err)
+			}
+
+		// Err() channel will be closed when unsubscribing.
+		case <-b.txSub.Err():
+			return
 		}
 	}
 }

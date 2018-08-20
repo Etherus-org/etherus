@@ -67,7 +67,7 @@ func (app *EthermintApplication) SetValidators(validators []abciTypes.Validator)
 func (app *EthermintApplication) GetUpdatedValidators() abciTypes.ResponseEndBlock {
 	if app.validators != nil {
 		compvals, err := app.validators.GetCompactedValidators()
-		if err != nil && len(compvals.ValidatorsCompacted) > 0 {
+		if err == nil && len(compvals.ValidatorsCompacted) > 0 {
 			newValidators := getUpdatedValidators(compvals.ValidatorsCompacted, compvals.ValidatorsIndex)
 			return abciTypes.ResponseEndBlock{ValidatorUpdates: newValidators}
 		} else {

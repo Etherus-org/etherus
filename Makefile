@@ -2,7 +2,7 @@ GOTOOLS := \
 					 github.com/karalabe/xgo \
 					 github.com/alecthomas/gometalinter
 
-PACKAGES := $(shell glide novendor)
+PACKAGES := $(go list ./... | grep -v vendor)
 
 BUILD_TAGS? := ethermint
 

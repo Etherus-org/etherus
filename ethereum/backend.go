@@ -30,7 +30,8 @@ type Backend struct {
 	ethConfig *eth.Config
 
 	// txBroadcastLoop subscription
-	txSub *event.TypeMuxSubscription
+	txCh  chan core.TxPreEvent
+	txSub event.Subscription
 
 	// EthState
 	es *EthState
