@@ -1,6 +1,7 @@
 GOTOOLS := \
-					 github.com/karalabe/xgo \
-					 github.com/alecthomas/gometalinter
+	github.com/karalabe/xgo \
+	github.com/golang/dep/cmd/dep \
+	github.com/alecthomas/gometalinter
 
 PACKAGES := $(shell go list ./...)
 
@@ -10,16 +11,10 @@ VERSION_TAG := 0.5.3
 
 BUILD_FLAGS = -ldflags "-X github.com/ya-enot/etherus/version.GitCommit=`git rev-parse --short HEAD`"
 
-GOPATH := $(shell go env GOPATH)
-
-DEP := $(shell go env GOPATH)/bin/dep
-
-DEPCACHEDIR = $(shell go env GOPATH)/pkg/dep
-
-export DEPPROJECTROOT = github.com/ya-enot/etherus
+DEPCACHEDIR ?= $(shell go env GOPATH)/pkg/dep
 
 ### Development ###
-all: get_vendor_deps install test
+all: check install test
 
 check: check_tools get_vendor_deps
 
@@ -68,13 +63,12 @@ draw_deps:
 	goviz -i github.com/ya-enot/etherus/cmd/ethermint -d 2 | dot -Tpng -o dependency-graph.png
 
 get_vendor_deps:
-	@$(DEP) version 2>/dev/null || go get -v github.com/golang/dep/cmd/dep
 	@rm -rf vendor/
 	@echo "--> Running dep"
-	@$(DEP) ensure -v
+	@dep ensure -v
 	@cp -a $(DEPCACHEDIR)/sources/https---github.com-ya--enot-go--ethereum.git/vendor ./vendor/github.com/ethereum/go-ethereum/vendor
 	@# ethereum/node.go:53:23: cannot use ctx (type *"github.com/ya-enot/etherus/vendor/gopkg.in/urfave/cli.v1".Context) as type *"github.com/ya-enot/etherus/vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave/cli.v1".Context in argument to utils.SetEthConfig
-	@rm -rf vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave
+	@rm -rf ./vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave
 
 check_tools:
 	@# https://stackoverflow.com/a/25668869

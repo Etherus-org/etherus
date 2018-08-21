@@ -14,6 +14,8 @@ install whichever tooling suits you best and [check out the documentation](http:
 See the [install documentation](http://ethermint.readthedocs.io/en/master/getting-started/install.html). For developers:
 
 ```
+export GOPATH=$(pwd)
+export PATH=$GOPATH/bin:$PATH
 git clone -b dukei-develop "https://github.com/ya-enot/etherus.git" "$GOPATH/src/github.com/ya-enot/etherus"
 git clone -b dukei-develop "https://github.com/ya-enot/tendermint.git" "$GOPATH/src/github.com/tendermint/tendermint"
 cd $GOPATH/src/github.com/ya-enot/etherus
