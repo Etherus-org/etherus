@@ -14,12 +14,12 @@ install whichever tooling suits you best and [check out the documentation](http:
 See the [install documentation](http://ethermint.readthedocs.io/en/master/getting-started/install.html). For developers:
 
 ```
-go get -u -d github.com/ya-enot/etherus
-go get -u -d github.com/ya-enot/tendermint
+git clone -b dukei-develop "https://github.com/ya-enot/etherus.git" "$GOPATH/src/github.com/ya-enot/etherus"
+git clone -b dukei-develop "https://github.com/ya-enot/tendermint.git" "$GOPATH/src/github.com/tendermint/tendermint"
 cd $GOPATH/src/github.com/ya-enot/etherus
-make install
-cd ../tendermint
-make install
+make check install
+cd ../../tendermint/tendermint
+make check install
 ```
 
 ### Running Ethermint
