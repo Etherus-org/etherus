@@ -12,16 +12,26 @@ install whichever tooling suits you best and [check out the documentation](http:
 ## Installation
 
 See the [install documentation](http://ethermint.readthedocs.io/en/master/getting-started/install.html). For developers:
-
+For Linux and MacOS:
 ```
 export GOPATH=$(pwd)
 export PATH=$GOPATH/bin:$PATH
-git clone -b dukei-develop "https://github.com/ya-enot/etherus.git" "$GOPATH/src/github.com/ya-enot/etherus"
-git clone -b dukei-develop "https://github.com/ya-enot/tendermint.git" "$GOPATH/src/github.com/tendermint/tendermint"
-cd $GOPATH/src/github.com/ya-enot/etherus
+```
+For Windows (cmd):
+```
+SET "GOPATH=%CD%"
+SET "PATH=%GOPATH%/bin;%PATH%"
+```
+And for any platform afterall:
+```
+git clone -b dukei-develop "https://github.com/ya-enot/etherus.git" "src/github.com/ya-enot/etherus"
+git clone -b dukei-develop "https://github.com/ya-enot/tendermint.git" "src/github.com/tendermint/tendermint"
+pushd .
+cd src/github.com/ya-enot/etherus
 make check install
 cd ../../tendermint/tendermint
 make check install
+popd
 ```
 
 ### Running Ethermint
