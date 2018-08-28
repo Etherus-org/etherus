@@ -91,8 +91,9 @@ contract Validators {
 
         bytes32 compactedValidator = compactValidator(vPub, v);
         if(v.idx > 0) {
-            validatorsIndex[v.idx] = vPub;
-            validatorsCompacted[v.idx] = compactedValidator;
+            uint32 idx = v.idx-1;
+            validatorsIndex[idx] = vPub;
+            validatorsCompacted[idx] = compactedValidator;
         }else{
             validatorsIndex.push(vPub);
             validatorsCompacted.push(compactedValidator);
@@ -135,8 +136,8 @@ contract Validators {
         Compacts validator into bytes32
         |reserved 24 bits|pauseCause 8 bits|senior 64 bits of deposit|validator address 160 bits|
     */
-    function compactValidator(bytes32 vPub, Validator storage v) internal view returns (bytes32) {
-        uint256 hash = uint256(sha256(vPub));
+    function compactValidator(bytes32 /*vPub*/, Validator storage v) internal view returns (bytes32) {
+        uint256 hash = 0; //uint256(sha256(vPub)); //Too much gas on private testnet
          return bytes32(
              (hash >> 96)
              | ((uint256(v.deposit) >> 32) << 160)

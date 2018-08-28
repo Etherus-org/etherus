@@ -11,6 +11,7 @@ import (
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/ethereum/go-ethereum/eth"
+	"github.com/ethereum/go-ethereum/log"
 
 	//"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/ethdb"
@@ -235,7 +236,7 @@ func (ws *workState) commit(blockchain *core.BlockChain, db ethdb.Database) (com
 	blockHash := block.Hash()
 
 	// Save the block to disk.
-	// log.Info("Committing block", "stateHash", hashArray, "blockHash", blockHash)
+	log.Info("Committing block", "stateHash", hashArray, "blockHash", blockHash)
 	_, err = blockchain.InsertChain([]*ethTypes.Block{block})
 	if err != nil {
 		// log.Info("Error inserting ethereum block in chain", "err", err)

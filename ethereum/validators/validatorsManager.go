@@ -20,8 +20,6 @@ package validators
 //go:generate abigen --sol ./contract/validators.sol --pkg contract --out ./contract/validators.go
 
 import (
-	"errors"
-
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -31,8 +29,7 @@ import (
 )
 
 var (
-	MainNetAddress = common.HexToAddress("0xb6b29ef90120bec597939e0eda6b8a9164f75deb")
-	TestNetAddress = common.HexToAddress("0xb6b29ef90120bec597939e0eda6b8a9164f75deb")
+	contractAddress = common.HexToAddress("0x0000000000000000000000000000000000000fff")
 )
 
 type ValidatorsManager struct {
@@ -77,16 +74,16 @@ func DeployValidators(transactOpts *bind.TransactOpts, contractBackend bind.Cont
 func CreateValidators(backend *ethereum.Backend, client *rpc.Client) (*ValidatorsManager, error) {
 	// Retrieve the Ethereum service dependency to access the blockchain
 
-	chainConfig := backend.Ethereum().ApiBackend.ChainConfig()
+	var addr common.Address = contractAddress
+	/*	chainConfig := backend.Ethereum().ApiBackend.ChainConfig()
 
-	var addr common.Address
-	switch chainConfig.ChainId.Int64() {
-	case 15:
-		addr = MainNetAddress
-	default:
-		return nil, errors.New("Unknown Network Id")
-	}
-
+		switch chainConfig.ChainId.Int64() {
+		case 15:
+			addr = MainNetAddress
+		default:
+			return nil, errors.New("Unknown Network Id: " + strconv.FormatInt(chainConfig.ChainId.Int64(), 10))
+		}
+	*/
 	//	ethereum := backend.Ethereum()
 	cb := ethclient.NewClient(client)
 

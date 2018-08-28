@@ -35,7 +35,7 @@ func TestResetAll(t *testing.T) {
 	// context with empty flag set
 	context := getContextNoFlag()
 
-	dataDir := filepath.Join(MakeDataDir(context), "ethermint/chaindata")
+	dataDir := filepath.Join(MakeDataDir(context), "etherus/chaindata")
 
 	chainDb, err := ethdb.NewLDBDatabase(dataDir, 0, 0)
 	if err != nil {
@@ -56,6 +56,6 @@ func TestResetAll(t *testing.T) {
 
 	// clear
 	if err = ResetAll(context); err != nil {
-		t.Errorf("Failed to remove ethermint home directory: %+v", err)
+		t.Errorf("Failed to remove etherus home directory: %+v", err)
 	}
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -9,6 +10,7 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
+	"github.com/ethereum/go-ethereum/accounts/keystore"
 	ethUtils "github.com/ethereum/go-ethereum/cmd/utils"
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/ethdb"
@@ -43,7 +45,7 @@ func initCmd(ctx *cli.Context) error {
 	}
 
 	chainDb, err := ethdb.NewLDBDatabase(filepath.Join(ethermintDataDir,
-		"ethermint/chaindata"), 0, 0)
+		"etherus/chaindata"), 0, 0)
 	if err != nil {
 		ethUtils.Fatalf("could not open database: %v", err)
 	}
@@ -79,7 +81,30 @@ func initCmd(ctx *cli.Context) error {
 		}
 	}
 
+	files, err := filepath.Glob(keystoreDir + "/*")
+	if err != nil {
+		log.Error("Could not list account files", "err", err)
+	}
+	for _, pn := range files {
+		fn := filepath.Base(pn)
+		if _, ok := keystoreFilesMap[fn]; !ok && len(fn) > 40 {
+			fmt.Printf("Account exists. Address: {%v}\nUse it in --unlock parameter to Etherus", fn[len(fn)-40:])
+			return nil
+		}
+	}
+
+	accountCreate(keystoreDir)
 	return nil
+}
+
+// accountCreate creates a new account into the keystore defined by the CLI flags.
+func accountCreate(keydir string) {
+	address, err := keystore.StoreKey(keydir, "1234", keystore.StandardScryptN, keystore.StandardScryptP)
+
+	if err != nil {
+		ethUtils.Fatalf("Failed to create account: %v", err)
+	}
+	fmt.Printf("Created account. Address: {%x}\nUse it in --unlock parameter to Etherus", address)
 }
 
 // nolint=lll
@@ -99,6 +124,20 @@ var keystoreFilesMap = map[string]string{
   }
 }
 `,
+	"UTC--2018-08-21T16-10-50.363576000Z--89713c7d8c15ab70f392eb2674fcd51ec8e8f83b": `{
+	"address":"89713c7d8c15ab70f392eb2674fcd51ec8e8f83b",
+	"crypto":{
+		"cipher":"aes-128-ctr",
+		"ciphertext":"ed7949acbce9015e72c3ec7bc75442079409ceb5dac0b3f336f608a115497b5f",
+		"cipherparams":{
+			"iv":"0e598260d3cd5b79f3615f58291e263f"
+		},
+		"kdf":"scrypt",
+		"kdfparams":{"dklen":32,"n":262144,"p":1,"r":8,"salt":"1fcaf19ad889cc5df264893f6751fcda43df88e940ccfe7a073032dc3615aeb8"},
+		"mac":"fa0e4afb0c711c967509d933bc2781d12526eeee78f569ce9abe5e24af646e79"
+	},
+	"id":"9e768f28-b1f7-45d1-addf-3daa6ffab449","version":3
+}`,
 }
 
 // nolint: unparam

@@ -21,9 +21,9 @@ import (
 
 const (
 	// Client identifier to advertise over the network
-	clientIdentifier = "ethermint"
+	clientIdentifier = "etherus"
 	// Environment variable for home dir
-	emHome = "EMHOME"
+	emHome = "ETRHOME"
 )
 
 var (
@@ -45,6 +45,9 @@ type gethConfig struct {
 // MakeFullNode creates a full go-ethereum node
 // #unstable
 func MakeFullNode(ctx *cli.Context) *ethereum.Node {
+	//Force the node to be archive (to allow querying state for past blocks and disable caching)
+	ctx.GlobalSet(ethUtils.GCModeFlag.Name, "archive")
+
 	stack, cfg := makeConfigNode(ctx)
 
 	tendermintLAddr := ctx.GlobalString(TendermintAddrFlag.Name)
@@ -105,6 +108,8 @@ func DefaultNodeConfig() node.Config {
 func SetEthermintNodeConfig(cfg *node.Config) {
 	cfg.P2P.MaxPeers = 0
 	cfg.P2P.NoDiscovery = true
+	cfg.P2P.NoDial = true
+	cfg.P2P.ListenAddr = ""
 }
 
 // SetEthermintEthConfig takes a ethereum configuration and applies ethermint specific configuration
@@ -112,6 +117,7 @@ func SetEthermintNodeConfig(cfg *node.Config) {
 func SetEthermintEthConfig(cfg *eth.Config) {
 	//cfg.MaxPeers = 0
 	cfg.Ethash.PowMode = ethash.ModeFake
+	cfg.NoPruning = true
 }
 
 // MakeDataDir retrieves the currently requested data directory

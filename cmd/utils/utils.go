@@ -55,11 +55,11 @@ func DefaultDataDir() string {
 	home := HomeDir()
 	if home != "" {
 		if runtime.GOOS == "darwin" {
-			return filepath.Join(home, "Library", "Ethermint")
+			return filepath.Join(home, "Library", "Etherus")
 		} else if runtime.GOOS == "windows" {
-			return filepath.Join(home, "AppData", "Roaming", "Ethermint")
+			return filepath.Join(home, "AppData", "Roaming", "Etherus")
 		} else {
-			return filepath.Join(home, ".ethermint")
+			return filepath.Join(home, ".etherus")
 		}
 	}
 	// As we cannot guess a stable location, return empty and handle later
@@ -68,9 +68,9 @@ func DefaultDataDir() string {
 
 // ResetAll will remove the data directory.
 func ResetAll(ctx *cli.Context) error {
-	dbDir := filepath.Join(MakeDataDir(ctx), "ethermint")
+	dbDir := filepath.Join(MakeDataDir(ctx), "etherus")
 	if err := os.RemoveAll(dbDir); err != nil {
-		log.Debug("Could not reset ethermint. Failed to remove %+v", dbDir)
+		log.Debug("Could not reset etherus. Failed to remove %+v", dbDir)
 		return err
 	}
 

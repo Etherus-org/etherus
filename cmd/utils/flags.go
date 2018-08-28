@@ -65,11 +65,11 @@ var (
 	}
 
 	// WithTendermintFlag asks to start Tendermint
-	// `tendermint init` and `tendermint node` when `ethermint init`
-	// and `ethermint` are invoked respectively.
+	// `tendermint init` and `tendermint node` when `etherus init`
+	// and `etherus` are invoked respectively.
 	WithTendermintFlag = cli.BoolFlag{
 		Name: "with-tendermint",
 		Usage: "If set, it will invoke `tendermint init` and `tendermint node` " +
-			"when `ethermint init` and `ethermint` are invoked respectively",
+			"when `etherus init` and `etherus` are invoked respectively",
 	}
 )

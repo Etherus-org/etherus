@@ -82,7 +82,7 @@ func ethermintCmd(ctx *cli.Context) error {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	ethApp.SetLogger(emtUtils.EthermintLogger().With("module", "ethermint"))
+	ethApp.SetLogger(emtUtils.EthermintLogger().With("module", "etherus"))
 
 	// Start the app on the ABCI server
 	srv, err := server.NewServer(addr, abci, ethApp)

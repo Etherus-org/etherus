@@ -1,6 +1,7 @@
 package app
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -47,6 +48,8 @@ type EthermintApplication struct {
 	myValidator *common.Address
 
 	currentBlockValidator *abciTypes.Validator
+
+	previousBlockNumber *big.Int
 }
 
 // NewEthermintApplication creates a fully initialised instance of EthermintApplication
@@ -189,6 +192,7 @@ func (app *EthermintApplication) BeginBlock(beginBlock abciTypes.RequestBeginBlo
 
 	app.logger.Debug("BeginBlock") // nolint: errcheck
 
+	app.previousBlockNumber = big.NewInt(beginBlock.Header.Height - 1)
 	validator := beginBlock.Header.Proposer
 	validatorAddress := common.BytesToAddress(validator.Address)
 	app.logger.Debug("Proposer address is ", "validatorAddress", validatorAddress)
@@ -218,11 +222,14 @@ func (app *EthermintApplication) EndBlock(endBlock abciTypes.RequestEndBlock) ab
 func (app *EthermintApplication) Commit() abciTypes.ResponseCommit {
 	app.logger.Debug("Commit") // nolint: errcheck
 	blockHash, err := app.backend.Commit(app.Receiver())
+	rootHash := app.backend.Ethereum().BlockChain().CurrentBlock().Root()
+	app.logger.Info("Commiting ", "blockHash", hex.EncodeToString(blockHash[:]), "cbr", hex.EncodeToString(rootHash[:])) // nolint: errcheck
 	if err != nil {
 		// nolint: errcheck
 		app.logger.Error("Error getting latest ethereum state", "err", err)
 		panic(errors.New("Error getting latest ethereum state"))
 	}
+
 	state, err := app.getCurrentState()
 	if err != nil {
 		app.logger.Error("Error getting latest state", "err", err) // nolint: errcheck
@@ -231,6 +238,7 @@ func (app *EthermintApplication) Commit() abciTypes.ResponseCommit {
 
 	app.checkTxState = state.Copy()
 	app.currentBlockValidator = nil
+	app.previousBlockNumber = nil
 	return abciTypes.ResponseCommit{
 		Data: blockHash[:],
 	}
