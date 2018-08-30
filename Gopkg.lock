@@ -52,15 +52,6 @@
   revision = "95f809107225be108efcf10a3509e4ea6ceef3c4"
 
 [[projects]]
-  branch = "dukei-develop-f1.8.6"
-  digest = "1:0e58730fe607f9fae379ee17684271ddde486c8630e91754d9d4d33f57d6d39d"
-  name = "github.com/ethereum/go-ethereum"
-  packages = ["."]
-  pruneopts = ""
-  revision = "236851213addb0b7052d4200a781549c5b8c501f"
-  source = "github.com/ya-enot/go-ethereum.git"
-
-[[projects]]
   digest = "1:fdf5169073fb0ad6dc12a70c249145e30f4058647bea25f0abd48b6d9f228a11"
   name = "github.com/go-kit/kit"
   packages = [
