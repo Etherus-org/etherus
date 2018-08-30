@@ -15,7 +15,7 @@
   name = "github.com/btcsuite/btcd"
   packages = ["btcec"]
   pruneopts = "UT"
-  revision = "f899737d7f2764dc13e4d01ff00108ec58f766a9"
+  revision = "79e00513b1011888b1e675157ab89f527f901cae"
 
 [[projects]]
   digest = "1:386de157f7d19259a7f9c81f26ce011223ce0f090353c1152ffdf730d7d10ac2"
@@ -52,6 +52,15 @@
   revision = "95f809107225be108efcf10a3509e4ea6ceef3c4"
 
 [[projects]]
+  branch = "dukei-develop-f1.8.6"
+  digest = "1:3ace8104753a18528dda03b1c19751ea48c9b7a8343165d291575bb50b3899e7"
+  name = "github.com/ethereum/go-ethereum"
+  packages = ["."]
+  pruneopts = ""
+  revision = "a68e3d4fb2672f55acce744abaabddb96b787de5"
+  source = "github.com/ya-enot/go-ethereum.git"
+
+[[projects]]
   digest = "1:fdf5169073fb0ad6dc12a70c249145e30f4058647bea25f0abd48b6d9f228a11"
   name = "github.com/go-kit/kit"
   packages = [
@@ -76,12 +85,12 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:c4a2528ccbcabf90f9f3c464a5fc9e302d592861bbfd0b7135a7de8a943d0406"
+  digest = "1:586ea76dbd0374d6fb649a91d70d652b7fe0ccffb8910a77468e7702e7901f3d"
   name = "github.com/go-stack/stack"
   packages = ["."]
   pruneopts = "UT"
-  revision = "259ab82a6cad3992b4e21ff5cac294ccb06474bc"
-  version = "v1.7.0"
+  revision = "2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a"
+  version = "v1.8.0"
 
 [[projects]]
   digest = "1:35621fe20f140f05a0c4ef662c26c0ab4ee50bca78aa30fe87d33120bd28165e"
@@ -333,7 +342,7 @@
     "salsa20/salsa",
   ]
   pruneopts = "UT"
-  revision = "aabede6cba87e37f413b3e60ebfc214f8eeca1b0"
+  revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
 
 [[projects]]
   digest = "1:68349a8c755738add0b9dcc25e5bfcbc11862520e0dfa9ebd32d8b489d7d4971"
@@ -352,11 +361,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:05662433b3a13c921587a6e622b5722072edff83211efd1cd79eeaeedfd83f07"
+  digest = "1:4b487c782bc804d994e91adbd3d2a8a77a482671efd87b2fde0805adb01a39c0"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded"
+  revision = "49385e6e15226593f68b26af201feec29d5bba22"
 
 [[projects]]
   digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
