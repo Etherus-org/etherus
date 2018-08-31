@@ -16,17 +16,28 @@ install whichever tooling suits you best.
 
 ## Installation
 
-See the [install documentation](http://ethermint.readthedocs.io/en/master/getting-started/install.html). For developers:
-
+For developers:
+For Linux and MacOS:
 ```
-go get -u -d github.com/tendermint/ethermint
-go get -u -d github.com/tendermint/tendermint
-cd $GOPATH/src/github.com/tendermint/ethermint
-make install
-cd ../tendermint
-make install
+export GOPATH=$(pwd)
+export PATH=$GOPATH/bin:$PATH
 ```
-
+For Windows (cmd):
+```
+SET "GOPATH=%CD%"
+SET "PATH=%GOPATH%/bin;%PATH%"
+```
+And for any platform afterall:
+```
+git clone -b dukei-develop-f1.8.6 "https://github.com/etherus-org/etherus.git" "src/github.com/ya-enot/etherus"
+git clone -b dukei-develop "https://github.com/etherus-org/tendermint.git" "src/github.com/tendermint/tendermint"
+pushd .
+cd src/github.com/ya-enot/etherus
+make check install
+cd ../../tendermint/tendermint
+make check install
+popd
+```
 ### Running Etherus
 
 #### Initialisation
