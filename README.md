@@ -1,13 +1,18 @@
-# Ethermint
+# Etherus
 
-Ethereum powered by Tendermint consensus
+Ethereum powered by Tendermint consensus with dynamic validators
 
-[![Build Status](https://travis-ci.org/tendermint/ethermint.svg?branch=develop)](https://travis-ci.org/tendermint/ethermint) [![License](https://img.shields.io/badge/license-GPLv3.0%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html) [![Documentation Status](https://readthedocs.org/projects/ethermint/badge/?version=master)](http://ethermint.readthedocs.io/en/latest/?badge=master)
+You can try demo at https://etherus.org
+Blockchain explorer: https://explorer.etherus.org
+Wallet: https://wallet.etherus.org
+RPC endpoint: https://rpc-alpha.etherus.org
+Tendermint P2P persistent peer: 26593a301734740cdf503ea8f4f8b218446360fc@127.0.0.1:26656
+Alpha genesis.json: https://gist.github.com/dukei/1e8889b33430495cfbb9818ab8d09761
 
 ## Features
 
-Ethermint is fully compatible with the standard Ethereum tooling such as [geth](https://github.com/ethereum/go-ethereum), [mist](https://github.com/ethereum/mist) and [truffle](https://github.com/trufflesuite/truffle). Please
-install whichever tooling suits you best and [check out the documentation](http://ethermint.readthedocs.io/en/master) for more information.
+Etherus is fully compatible with the standard Ethereum tooling such as [geth](https://github.com/ethereum/go-ethereum), [mist](https://github.com/ethereum/mist), [truffle](https://github.com/trufflesuite/truffle) and [remix](http://remix.ethereum.org). Please
+install whichever tooling suits you best.
 
 ## Installation
 
@@ -22,7 +27,7 @@ cd ../tendermint
 make install
 ```
 
-### Running Ethermint
+### Running Etherus
 
 #### Initialisation
 To get started, you need to initialise the genesis block for tendermint core and go-ethereum. We provide initialisation
@@ -36,33 +41,32 @@ Please switch into the folder where you have the initialisation files. If you in
 these instructions.
 
 ```bash
-ethermint --datadir ~/.ethermint --with-tendermint init
+etherus --datadir ~/.etherus --with-tendermint init
 ```
 
-which will also invoke `tendermint init --home ~/.ethermint/tendermint`. You can prevent Tendermint from
+which will also invoke `tendermint init --home ~/.etherus/tendermint`. You can prevent Tendermint from
 being starting by excluding the flag `--with-tendermint` for example:
 
 ```bash
-ethermint --datadir ~/.ethermint init
+etherus --datadir ~/.etherus init
 ```
 
 and then you will have to invoke `tendermint` in another shell with the command:
 
 ```bash
-tendermint init --home ~/.ethermint/tendermint
+tendermint init --home ~/.etherus/tendermint
 ```
 
 For simplicity, we'll have ethermint start tendermint as a subprocess with the
 flag `--with-tendermint`:
 
 ```bash
-ethermint --with-tendermint --datadir ~/.ethermint --rpc --rpcaddr=0.0.0.0 --ws --wsaddr=0.0.0.0 --rpcapi eth,net,web3,personal,admin
+etherus --with-tendermint --datadir ~/.etherus --rpc --rpcaddr=0.0.0.0 --ws --wsaddr=0.0.0.0 --rpcapi eth,net,web3,personal,admin
 ```
 
 Note: The **password** for the default account is *1234*.
 
-There you have it, Ethereum on Tendermint! For details on what to do next,
-check out [the documentation](http://ethermint.readthedocs.io/en/master/)
+There you have it, Ethereum on Tendermint!
 
 ## Contributing
 
