@@ -16,7 +16,16 @@ install whichever tooling suits you best.
 
 ## Installation
 
-For developers:
+Get binary package for your OS.
+
+Run Etherus with Tendermint. On the first run Etherus will create a wallet for you and Tendermint will show you your validator public key. If you want your node to be a validator you should register it on Validators smart contract. 
+
+Go to https://wallet.etherus.org/#contracts and choose Validators contract from list.
+Execute addDeposit method. Specify your validator public key as vPub parameter and your Etherus address as nodeAddr. Send 2500 ETR with this call (otherwise the call will fail). If you don't have ETR you can request them at info@etherus.org.
+
+Validators will became effective after the next block. You will be able to see how your node proposes blocks and gets rewarded at https://explorer.etherus.org
+
+## Building from source
 For Linux and MacOS:
 ```
 export GOPATH=$(pwd)
