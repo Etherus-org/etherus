@@ -16,7 +16,7 @@ install whichever tooling suits you best.
 
 ## Installation
 
-Get binary package for your OS.
+Get binary package for your OS. https://github.com/Etherus-org/etherus/releases/tag/v1.8.6-alpha
 
 Run Etherus with Tendermint. On the first run Etherus will create a wallet for you and Tendermint will show you your validator public key. If you want your node to be a validator you should register it on Validators smart contract. 
 
