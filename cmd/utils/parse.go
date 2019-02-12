@@ -16,8 +16,10 @@ import (
 var defaultGenesisBlob = []byte(`
 {
     "config": {
-        "chainId": 15,
+        "chainId": 32019,
         "homesteadBlock": 0,
+        "byzantiumBlock": 0,
+        "eip150Block": 0,
         "eip155Block": 0,
         "eip158Block": 0
     },
