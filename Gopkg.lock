@@ -194,9 +194,12 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:22d77456cc7b8f8392be23f08da95470f0f8383a670e448c20ae49d2f04a1459"
+  digest = "1:c1a04665f9613e082e1209cf288bf64f4068dcd6c87a64bf1c4ff006ad422ba0"
   name = "github.com/prometheus/client_golang"
-  packages = ["prometheus"]
+  packages = [
+    "prometheus",
+    "prometheus/promhttp",
+  ]
   pruneopts = "UT"
   revision = "ae27198cdd90bf12cd134ad79d1366a6cf49f632"
 
@@ -292,7 +295,7 @@
 
 [[projects]]
   branch = "ya-enot-v0.22.8"
-  digest = "1:14bdd914690bac4b639aab8af0bd55b6549a6b037947bcc1c3ca391977867e28"
+  digest = "1:1e658a08ad60e5d3718efd2ee11b171be8ec391697858e53cec140207809c0d6"
   name = "github.com/tendermint/tendermint"
   packages = [
     "abci/client",
@@ -300,29 +303,49 @@
     "abci/example/kvstore",
     "abci/server",
     "abci/types",
+    "blockchain",
     "config",
+    "consensus",
+    "consensus/types",
     "crypto",
     "crypto/ed25519",
     "crypto/encoding/amino",
     "crypto/merkle",
     "crypto/secp256k1",
     "crypto/tmhash",
+    "evidence",
+    "libs/autofile",
     "libs/bech32",
+    "libs/clist",
     "libs/common",
     "libs/db",
+    "libs/events",
     "libs/flowrate",
     "libs/log",
     "libs/pubsub",
     "libs/pubsub/query",
+    "mempool",
+    "node",
     "p2p",
     "p2p/conn",
+    "p2p/pex",
     "p2p/upnp",
+    "privval",
     "proxy",
+    "rpc/client",
+    "rpc/core",
     "rpc/core/types",
+    "rpc/grpc",
+    "rpc/lib",
     "rpc/lib/client",
+    "rpc/lib/server",
     "rpc/lib/types",
     "state",
+    "state/txindex",
+    "state/txindex/kv",
+    "state/txindex/null",
     "types",
+    "version",
   ]
   pruneopts = "UT"
   revision = "08815a06536f87b30a4f76a479cd225af2085019"
@@ -345,7 +368,7 @@
   revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
 
 [[projects]]
-  digest = "1:68349a8c755738add0b9dcc25e5bfcbc11862520e0dfa9ebd32d8b489d7d4971"
+  digest = "1:d36f55a999540d29b6ea3c2ea29d71c76b1d9853fdcd3e5c5cb4836f2ba118f1"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -354,6 +377,7 @@
     "http2/hpack",
     "idna",
     "internal/timeseries",
+    "netutil",
     "trace",
   ]
   pruneopts = "UT"
@@ -448,15 +472,15 @@
     "github.com/ethereum/go-ethereum",
     "github.com/mattn/go-colorable",
     "github.com/stretchr/testify/assert",
-    "github.com/tendermint/go-amino",
+    "github.com/syndtr/goleveldb/leveldb/errors",
     "github.com/tendermint/tendermint/abci/server",
     "github.com/tendermint/tendermint/abci/types",
     "github.com/tendermint/tendermint/crypto",
     "github.com/tendermint/tendermint/crypto/tmhash",
     "github.com/tendermint/tendermint/libs/common",
     "github.com/tendermint/tendermint/libs/log",
+    "github.com/tendermint/tendermint/rpc/client",
     "github.com/tendermint/tendermint/rpc/core/types",
-    "github.com/tendermint/tendermint/rpc/lib/client",
     "golang.org/x/net/context",
     "gopkg.in/urfave/cli.v1",
   ]

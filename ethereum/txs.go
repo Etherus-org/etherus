@@ -2,14 +2,10 @@ package ethereum
 
 import (
 	"bytes"
-	"time"
 
 	"github.com/ethereum/go-ethereum/core"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/log"
-
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
 )
 
 const (
@@ -26,7 +22,7 @@ func (b *Backend) txBroadcastLoop() {
 	b.txCh = make(chan core.TxPreEvent, txChanSize)
 	b.txSub = b.ethereum.TxPool().SubscribeTxPreEvent(b.txCh)
 
-	waitForServer(b.client)
+	b.WaitForServer()
 
 	for {
 		select {
@@ -45,32 +41,11 @@ func (b *Backend) txBroadcastLoop() {
 // BroadcastTx broadcasts a transaction to tendermint core
 // #unstable
 func (b *Backend) BroadcastTx(tx *ethTypes.Transaction) error {
-	result := new(ctypes.ResultBroadcastTx)
-
 	buf := new(bytes.Buffer)
 	if err := tx.EncodeRLP(buf); err != nil {
 		return err
 	}
-	params := map[string]interface{}{
-		"tx": buf.Bytes(),
-	}
 
-	_, err := b.client.Call("broadcast_tx_sync", params, result)
+	_, err := b.client.BroadcastTxSync(buf.Bytes())
 	return err
-}
-
-//----------------------------------------------------------------------
-// wait for Tendermint to open the socket and run http endpoint
-
-func waitForServer(c rpcClient.HTTPClient) {
-	status := new(ctypes.ResultStatus)
-	for {
-		_, err := c.Call("status", map[string]interface{}{}, status)
-		if err == nil {
-			break
-		}
-
-		log.Info("Waiting for tendermint endpoint to start", "err", err)
-		time.Sleep(time.Second * 3)
-	}
 }

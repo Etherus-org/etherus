@@ -77,7 +77,7 @@ func ethermintCmd(ctx *cli.Context) error {
 	}
 
 	// Create the ABCI app
-	ethApp, err := abciApp.NewEthermintApplication(backend, rpcClient, myValidator, nil)
+	ethApp, err := abciApp.NewEthermintApplication(ctx, backend, rpcClient, myValidator, nil)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

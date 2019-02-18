@@ -1,20 +1,24 @@
 package ethereum
 
 import (
+	"time"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/state"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/eth"
 	"github.com/ethereum/go-ethereum/event"
+	"github.com/ethereum/go-ethereum/log"
 	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/p2p"
 	"github.com/ethereum/go-ethereum/rpc"
 
 	abciTypes "github.com/tendermint/tendermint/abci/types"
 
-	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
+	rpcClient "github.com/tendermint/tendermint/rpc/client"
 
+	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 	emtTypes "github.com/ya-enot/etherus/types"
 )
 
@@ -37,13 +41,15 @@ type Backend struct {
 	es *EthState
 
 	// client for forwarding txs to Tendermint
-	client rpcClient.HTTPClient
+	client *rpcClient.HTTP
+
+	hasStarted bool
 }
 
 // NewBackend creates a new Backend
 // #stable - 0.4.0
 func NewBackend(ctx *node.ServiceContext, ethConfig *eth.Config,
-	client rpcClient.HTTPClient) (*Backend, error) {
+	client *rpcClient.HTTP) (*Backend, error) {
 
 	// Create working ethereum state.
 	es := NewEthState()
@@ -189,4 +195,32 @@ func (NullBlockProcessor) ValidateBody(*ethTypes.Block) error { return nil }
 func (NullBlockProcessor) ValidateState(block, parent *ethTypes.Block, state *state.StateDB,
 	receipts ethTypes.Receipts, usedGas uint64) error {
 	return nil
+}
+
+// BroadcastTx broadcasts a transaction to tendermint core
+// #unstable
+func (b *Backend) GetBlock(num int64) (*ctypes.ResultBlock, error) {
+	b.WaitForServer()
+	result, err := b.client.Block(&num)
+	return result, err
+}
+
+//----------------------------------------------------------------------
+// wait for Tendermint to open the socket and run http endpoint
+
+func (b *Backend) WaitForServer() {
+	if b.hasStarted {
+		return
+	}
+	for {
+		_, err := b.client.Status()
+		if err == nil {
+			break
+		}
+
+		log.Info("Waiting for tendermint endpoint to start", "err", err)
+		time.Sleep(time.Second * 3)
+	}
+
+	b.hasStarted = true
 }

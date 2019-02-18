@@ -6,11 +6,14 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"path/filepath"
 
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/state"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/ethdb"
 	"github.com/ethereum/go-ethereum/rpc"
+	cli "gopkg.in/urfave/cli.v1"
 
 	"github.com/ya-enot/etherus/ethereum"
 	"github.com/ya-enot/etherus/ethereum/validators"
@@ -20,6 +23,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	abciTypes "github.com/tendermint/tendermint/abci/types"
 	tmLog "github.com/tendermint/tendermint/libs/log"
+
+	ethUtils "github.com/ethereum/go-ethereum/cmd/utils"
+	emtUtils "github.com/ya-enot/etherus/cmd/utils"
 )
 
 // EthermintApplication implements an ABCI application
@@ -43,18 +49,19 @@ type EthermintApplication struct {
 
 	logger tmLog.Logger
 
-	validators *validators.ValidatorsManager
+	validators        *validators.ValidatorsManager
+	validatorsHistory *validators.ValidatorsHistory
 
 	myValidator *common.Address
 
-	currentBlockValidator *abciTypes.Validator
+	requestBeginBlock *abciTypes.RequestBeginBlock
 
-	previousBlockNumber *big.Int
+	appDb *ethdb.LDBDatabase
 }
 
 // NewEthermintApplication creates a fully initialised instance of EthermintApplication
 // #stable - 0.4.0
-func NewEthermintApplication(backend *ethereum.Backend,
+func NewEthermintApplication(ctx *cli.Context, backend *ethereum.Backend,
 	client *rpc.Client, myValidator *common.Address, strategy *emtTypes.Strategy) (*EthermintApplication, error) {
 
 	state, err := backend.Ethereum().BlockChain().State()
@@ -67,6 +74,15 @@ func NewEthermintApplication(backend *ethereum.Backend,
 		return nil, err
 	}
 
+	ethermintDataDir := emtUtils.MakeDataDir(ctx)
+
+	appDb, err := ethdb.NewLDBDatabase(filepath.Join(ethermintDataDir,
+		"etherus/appdata"), 0, 0)
+
+	if err != nil {
+		ethUtils.Fatalf("could not open app database: %v", err)
+	}
+
 	app := &EthermintApplication{
 		backend:         backend,
 		rpcClient:       client,
@@ -74,7 +90,9 @@ func NewEthermintApplication(backend *ethereum.Backend,
 		checkTxState:    state.Copy(),
 		strategy:        strategy,
 		validators:      vlds,
-		myValidator:     myValidator,
+		//		validatorsHistory: validators.NewValidatorsHistory(&appDb),
+		myValidator: myValidator,
+		appDb:       appDb,
 	}
 
 	if err := app.backend.InitEthState(common.Address{}); err != nil {
@@ -192,13 +210,10 @@ func (app *EthermintApplication) BeginBlock(beginBlock abciTypes.RequestBeginBlo
 
 	app.logger.Debug("BeginBlock") // nolint: errcheck
 
-	app.previousBlockNumber = big.NewInt(beginBlock.Header.Height - 1)
-	validator := beginBlock.Header.Proposer
-	validatorAddress := common.BytesToAddress(validator.Address)
+	app.requestBeginBlock = &beginBlock
+
+	validatorAddress := common.BytesToAddress(beginBlock.Header.Proposer.Address)
 	app.logger.Debug("Proposer address is ", "validatorAddress", validatorAddress)
-	if validator.Power > 0 {
-		app.currentBlockValidator = &validator
-	}
 
 	if err := app.backend.InitEthState(app.Receiver()); err != nil {
 		panic(err)
@@ -237,8 +252,8 @@ func (app *EthermintApplication) Commit() abciTypes.ResponseCommit {
 	}
 
 	app.checkTxState = state.Copy()
-	app.currentBlockValidator = nil
-	app.previousBlockNumber = nil
+	app.requestBeginBlock = nil
+
 	return abciTypes.ResponseCommit{
 		Data: blockHash[:],
 	}

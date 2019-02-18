@@ -42,18 +42,21 @@ func decodeTx(txBytes []byte) (*types.Transaction, error) {
 // Receiver returns the receiving address based on the selected strategy
 // #unstable
 func (app *EthermintApplication) Receiver() common.Address {
-	if app.currentBlockValidator != nil {
-		pubKey := app.currentBlockValidator.PubKey.GetData()
+	if app.requestBeginBlock != nil {
+		validator := app.requestBeginBlock.Header.Proposer
+		if validator.Power > 0 {
+			pubKey := validator.PubKey.GetData()
 
-		var pubKeyBytes [32]byte
-		copy(pubKeyBytes[:], pubKey)
-		nAddr, err := app.validators.Contract.GetNodeAddr(&bind.CallOpts{BlockNumber: app.previousBlockNumber}, pubKeyBytes)
+			var pubKeyBytes [32]byte
+			copy(pubKeyBytes[:], pubKey)
+			nAddr, err := app.validators.Contract.GetNodeAddr(&bind.CallOpts{BlockNumber: big.NewInt(app.requestBeginBlock.Header.Height - 1)}, pubKeyBytes)
 
-		if err != nil {
-			app.logger.Error("Error getting node for validator: ", "err", err)
+			if err != nil {
+				app.logger.Error("Error getting node for validator: ", "err", err)
+			}
+			app.logger.Info("The receiver for currentBlock is: ", "address", nAddr, "validator", hex.EncodeToString(pubKey))
+			return nAddr
 		}
-		app.logger.Info("The receiver for currentBlock is: ", "address", nAddr, "validator", hex.EncodeToString(app.currentBlockValidator.PubKey.GetData()))
-		return nAddr
 	}
 	return common.Address{}
 }
@@ -69,17 +72,30 @@ func (app *EthermintApplication) SetValidators(validators []abciTypes.Validator)
 // GetUpdatedValidators returns an updated validator set from the strategy
 // #unstable
 func (app *EthermintApplication) GetUpdatedValidators() abciTypes.ResponseEndBlock {
-	if app.validators != nil && (app.previousBlockNumber == nil || app.previousBlockNumber.Int64() > 0) {
+	if app.validators != nil && app.requestBeginBlock != nil && app.requestBeginBlock.Header.Height > 1 {
+		curHeight := app.requestBeginBlock.Header.Height
 
-		prevBlockNumber := app.previousBlockNumber
-		if prevBlockNumber == nil {
-			prevBlockNumber = app.backend.Ethereum().BlockChain().CurrentBlock().Number()
+		prevBlockNumber := big.NewInt(curHeight - 1)
+		var prevPrevBlockNumber *big.Int
+		if curHeight >= 2 {
+			prevPrevBlockNumber = big.NewInt(curHeight - 2)
 		}
-		prevPrevBlockNumber := big.NewInt(app.previousBlockNumber.Int64() - 1)
-		if prevPrevBlockNumber.Int64() < 0 {
-			prevPrevBlockNumber = nil
-		}
+		/*
+			blockInfo, err := app.backend.GetBlock(curHeight - 1)
+			if err != nil {
+				ethUtils.Fatalf("could not get previous block from tendermint: %v", err)
+			}
 
+			prevBlockHash := blockInfo.BlockMeta.BlockID.Hash
+
+			ht := ethdb.NewTable(app.appDb, "nextvalidators")
+			serializedValidators, err := ht.Get(prevBlockHash)
+			if err != nil && err != errors.ErrNotFound {
+				ethUtils.Fatalf("error from app database: %v", err)
+			}
+
+			_ = serializedValidators
+		*/
 		compvals, err := app.validators.Contract.GetCompactedValidators(&bind.CallOpts{BlockNumber: prevBlockNumber})
 		if err == nil && len(compvals.ValidatorsCompacted) > 0 {
 			newValidators, newValsHash := getUpdatedValidators(compvals.ValidatorsCompacted, compvals.ValidatorsIndex)

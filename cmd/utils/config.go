@@ -14,9 +14,7 @@ import (
 
 	"github.com/ya-enot/etherus/ethereum"
 
-	amino "github.com/tendermint/go-amino"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpcClient "github.com/tendermint/tendermint/rpc/lib/client"
+	rpcClient "github.com/tendermint/tendermint/rpc/client"
 )
 
 const (
@@ -52,11 +50,7 @@ func MakeFullNode(ctx *cli.Context) *ethereum.Node {
 
 	tendermintLAddr := ctx.GlobalString(TendermintAddrFlag.Name)
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
-		client := rpcClient.NewURIClient(tendermintLAddr)
-
-		cdc := amino.NewCodec()
-		ctypes.RegisterAmino(cdc)
-		client.SetCodec(cdc)
+		client := rpcClient.NewHTTP(tendermintLAddr, "/websocket")
 
 		return ethereum.NewBackend(ctx, &cfg.Eth, client)
 	}); err != nil {
@@ -117,7 +111,8 @@ func SetEthermintNodeConfig(cfg *node.Config) {
 func SetEthermintEthConfig(cfg *eth.Config) {
 	//cfg.MaxPeers = 0
 	cfg.Ethash.PowMode = ethash.ModeFake
-	cfg.NoPruning = true
+	//archive mode off
+	//	cfg.NoPruning = true
 }
 
 // MakeDataDir retrieves the currently requested data directory

@@ -239,7 +239,7 @@ func (ws *workState) commit(blockchain *core.BlockChain, db ethdb.Database) (com
 	log.Info("Committing block", "stateHash", hashArray, "blockHash", blockHash)
 	_, err = blockchain.InsertChain([]*ethTypes.Block{block})
 	if err != nil {
-		// log.Info("Error inserting ethereum block in chain", "err", err)
+		log.Error("Error inserting ethereum block in chain", "err", err)
 		return common.Hash{}, err
 	}
 	return blockHash, err
@@ -253,6 +253,7 @@ func (ws *workState) updateHeaderWithTimeInfo(
 		Difficulty: lastBlock.Difficulty(),
 		Number:     lastBlock.Number(),
 		Time:       lastBlock.Time(),
+		UncleHash:  lastBlock.UncleHash(),
 	}
 	ws.header.Time = new(big.Int).SetUint64(parentTime)
 	ws.header.Difficulty = ethash.CalcDifficulty(config, parentTime, parentHeader)
