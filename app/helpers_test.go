@@ -10,8 +10,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/tendermint/tendermint/libs/log"
-
 	ctypes "github.com/tendermint/tendermint/rpc/core/types"
 
 	ethUtils "github.com/ethereum/go-ethereum/cmd/utils"
@@ -19,16 +17,11 @@ import (
 	"github.com/ethereum/go-ethereum/core"
 	ethTypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/node"
 	"github.com/ethereum/go-ethereum/rlp"
-
-	"github.com/ya-enot/etherus/cmd/utils"
-	"github.com/ya-enot/etherus/ethereum"
 )
 
 var (
-	receiverAddress = common.StringToAddress("0x1234123412341234123412341234123412341234")
+	receiverAddress = common.HexToAddress("0x1234123412341234123412341234123412341234")
 )
 
 // implements: tendermint.rpc.client.HTTPClient
@@ -72,7 +65,7 @@ func createTx(t *testing.T, key *ecdsa.PrivateKey, nonce uint64, to common.Addre
 	signer := ethTypes.HomesteadSigner{}
 
 	transaction, err := ethTypes.SignTx(
-		ethTypes.NewTransaction(nonce, to, amount, gasLimit, gasPrice, data),
+		ethTypes.NewTransaction(nonce, to, amount, gasLimit.Uint64(), gasPrice, data),
 		signer,
 		key,
 	)
@@ -97,6 +90,7 @@ func createTxBytes(t *testing.T, key *ecdsa.PrivateKey, nonce uint64,
 	return encodedTransaction
 }
 
+/*
 // TODO: [adrian] Change node.Node to use ethereum.Node, which is our own node
 // without the networking stack. This should be held off until we decide on
 // the new design.
@@ -115,12 +109,13 @@ func makeTestApp(tempDatadir string, addresses []common.Address,
 		return nil, nil, nil, err
 	}
 
-	app, err := NewEthermintApplication(backend, nil, nil)
+	app, err := NewEthermintApplication(nil, backend, nil, nil, nil)
 	app.SetLogger(log.TestingLogger())
 
 	return stack, backend, app, err
 }
-
+*/
+/*
 // mimics MakeSystemNode from ethereum/node.go
 func makeTestSystemNode(tempDatadir string, addresses []common.Address,
 	mockClient *MockClient) (*node.Node, error) {
@@ -149,7 +144,7 @@ func makeTestSystemNode(tempDatadir string, addresses []common.Address,
 		return ethereum.NewBackend(ctx, &ethConf, mockClient)
 	})
 }
-
+*/
 func makeTestGenesis(addresses []common.Address) (*core.Genesis, error) {
 	currentDir, err := os.Getwd()
 	if err != nil {

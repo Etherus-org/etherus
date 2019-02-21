@@ -1,0 +1,641 @@
+{
+    "accounts": {
+      "account{0}": "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc"
+    },
+    "linkReferences": {},
+    "transactions": [
+      {
+        "timestamp": 1550750210495,
+        "record": {
+          "value": "3000000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000001",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750244964,
+        "record": {
+          "value": "2500000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000002",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750262351,
+        "record": {
+          "value": "6000000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000003",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750294194,
+        "record": {
+          "value": "1000000000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000004",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750322624,
+        "record": {
+          "value": "10000000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000005",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750343171,
+        "record": {
+          "value": "2600000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000006",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750368822,
+        "record": {
+          "value": "2700000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000007",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750392032,
+        "record": {
+          "value": "2800000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000008",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750404211,
+        "record": {
+          "value": "2900000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000009",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550750415107,
+        "record": {
+          "value": "10000000000000000000",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000009",
+            "0x7eff122b94897ea5b0e2a9abf47b86337fafebdc",
+            "0x0000000000000000000000000000000000000000"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "addInitialDeposit",
+          "inputs": "(bytes32,address,address)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751605212,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000001"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751614565,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751620118,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000004"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751622254,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000005"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751626127,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000006"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751629007,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000007"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751632096,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      },
+      {
+        "timestamp": 1550751635527,
+        "record": {
+          "value": "0",
+          "parameters": [
+            "0x0000000000000000000000000000000000000000000000000000000000000009"
+          ],
+          "to": "0xb6b29ef90120bec597939e0eda6b8a9164f75deb",
+          "abi": "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a",
+          "name": "resumeValidation",
+          "inputs": "(bytes32)",
+          "type": "function",
+          "from": "account{0}"
+        }
+      }
+  
+    ],
+    "abis": {
+      "0x5380c7b7ae81a58eb98d9c78de4a1fd7fd9535fc953ed2be602daaa41767312a": [
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "addDeposit",
+          "outputs": [],
+          "payable": true,
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            },
+            {
+              "name": "nodeAddr",
+              "type": "address"
+            },
+            {
+              "name": "receiver",
+              "type": "address"
+            }
+          ],
+          "name": "addInitialDeposit",
+          "outputs": [],
+          "payable": true,
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            },
+            {
+              "name": "vFrom",
+              "type": "bytes32"
+            },
+            {
+              "name": "cause",
+              "type": "uint8"
+            }
+          ],
+          "name": "pauseValidation",
+          "outputs": [],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "resumeValidation",
+          "outputs": [],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "withdraw",
+          "outputs": [],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "payable": true,
+          "stateMutability": "payable",
+          "type": "fallback"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "vPub",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "deposit",
+              "type": "uint96"
+            }
+          ],
+          "name": "ValidatorUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "name": "vPub",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "name": "cause",
+              "type": "uint8"
+            }
+          ],
+          "name": "ValidatorRemoved",
+          "type": "event"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "DEPOSIT_LOCK_BLOCKS",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint48"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "getCompactedValidators",
+          "outputs": [
+            {
+              "name": "ValidatorsCompacted",
+              "type": "bytes32[]"
+            },
+            {
+              "name": "validatorsPubKeys",
+              "type": "bytes32[]"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getNodeAddr",
+          "outputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getNodeReceiver",
+          "outputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getValidator",
+          "outputs": [
+            {
+              "name": "nodeAddr",
+              "type": "address"
+            },
+            {
+              "name": "deposit",
+              "type": "uint96"
+            },
+            {
+              "name": "pauseBlockNumber",
+              "type": "uint48"
+            },
+            {
+              "name": "pauseCause",
+              "type": "uint8"
+            },
+            {
+              "name": "receiver",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "hasDeposit",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "vPub",
+              "type": "bytes32"
+            }
+          ],
+          "name": "isPaused",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "MIN_DEPOSIT",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "NODE_LOCK_BLOCKS",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint48"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "PAUSE_CAUSE_PUNISHMENT",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint8"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "PAUSE_CAUSE_SEMI_VOLUNTARILY",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint8"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "PAUSE_CAUSE_VOLUNTARILY",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint8"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        }
+      ]
+    }
+  }

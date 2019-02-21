@@ -3,8 +3,10 @@ package app
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
+	"math"
 	"math/big"
 	"sort"
 
@@ -49,7 +51,7 @@ func (app *EthermintApplication) Receiver() common.Address {
 
 			var pubKeyBytes [32]byte
 			copy(pubKeyBytes[:], pubKey)
-			nAddr, err := app.validators.Contract.GetNodeAddr(&bind.CallOpts{BlockNumber: big.NewInt(app.requestBeginBlock.Header.Height - 1)}, pubKeyBytes)
+			nAddr, err := app.validators.Contract.GetNodeReceiver(&bind.CallOpts{BlockNumber: big.NewInt(app.requestBeginBlock.Header.Height - 1)}, pubKeyBytes)
 
 			if err != nil {
 				app.logger.Error("Error getting node for validator: ", "err", err)
@@ -96,25 +98,32 @@ func (app *EthermintApplication) GetUpdatedValidators() abciTypes.ResponseEndBlo
 
 			_ = serializedValidators
 		*/
-		compvals, err := app.validators.Contract.GetCompactedValidators(&bind.CallOpts{BlockNumber: prevBlockNumber})
+
+		compvals, err := app.validators.Contract.GetActiveCompactedValidators(&bind.CallOpts{BlockNumber: prevBlockNumber})
 		if err == nil && len(compvals.ValidatorsCompacted) > 0 {
-			newValidators, newValsHash := getUpdatedValidators(compvals.ValidatorsCompacted, compvals.ValidatorsIndex)
+			newValidators, newValsHash := getNewValidators(compvals.ValidatorsCompacted, compvals.ValidatorsPubKeys)
 
 			//We need to return new validators only in case they have changed.
 			//Because otherwise Tendermint resets Proposer choosing procedure
 			if prevPrevBlockNumber != nil {
-				compvalsPrev, err := app.validators.Contract.GetCompactedValidators(&bind.CallOpts{BlockNumber: prevPrevBlockNumber})
+				compvalsPrev, err := app.validators.Contract.GetActiveCompactedValidators(&bind.CallOpts{BlockNumber: prevPrevBlockNumber})
 				if err == nil {
-					_, oldValsHash := getUpdatedValidators(compvalsPrev.ValidatorsCompacted, compvalsPrev.ValidatorsIndex)
+					oldValidators, oldValsHash := getNewValidators(compvalsPrev.ValidatorsCompacted, compvalsPrev.ValidatorsPubKeys)
 					if bytes.Compare(newValsHash, oldValsHash) == 0 {
 						app.logger.Info("Validators have not changed since last block, returning no change")
 						return abciTypes.ResponseEndBlock{}
-					} else {
-						app.logger.Error("Can not get previous validators: ", "err", err)
 					}
+
+					updatedValidators := getUpdatedValidators(newValidators, oldValidators)
+					return abciTypes.ResponseEndBlock{ValidatorUpdates: updatedValidators}
+				} else {
+					app.logger.Error("Can not get compacted validators: ", "err", err)
+					return abciTypes.ResponseEndBlock{}
 				}
+
 			}
 
+			//There is no previous block, so return the full set of validators
 			return abciTypes.ResponseEndBlock{ValidatorUpdates: newValidators}
 		} else {
 			app.logger.Error("Can not get current validators: ", "err", err)
@@ -131,14 +140,15 @@ func (app *EthermintApplication) CollectTx(tx *types.Transaction) {
 	}
 }
 
-//Normalization factor for cut deposit. In 0.1 ETR
-var norm = big.NewInt(23283064)
+//Normalization factor for cut deposit. In 1 ETR
+const DEPOSIT_NORMALIZATION = 232830643 // = 1 ether / 2^32
+const MAX_VALIDATORS = 128
 
-func getUpdatedValidators(compvals [][32]byte, pubkeys [][32]byte) ([]abciTypes.Validator, []byte) {
+func getNewValidators(compvals [][32]byte, pubkeys [][32]byte) ([]abciTypes.Validator, []byte) {
 	type Vldtr struct {
 		Address    []byte
 		PubKey     []byte
-		Deposit    big.Int
+		Deposit    uint64
 		PauseCause byte
 	}
 
@@ -146,27 +156,72 @@ func getUpdatedValidators(compvals [][32]byte, pubkeys [][32]byte) ([]abciTypes.
 	for i, v := range compvals {
 		vldtr := &vldtrs[i]
 		vldtr.Address = v[12:]
-		vldtr.Deposit.SetBytes(v[4:12])
+		vldtr.Deposit = binary.BigEndian.Uint64(v[4:12])
 		vldtr.PauseCause = v[3]
 		vldtr.PubKey = pubkeys[i][:]
 	}
 
 	sort.Slice(vldtrs, func(i, j int) bool {
-		return vldtrs[i].Deposit.Cmp(&vldtrs[j].Deposit) < 0
+		//From large to small
+		return vldtrs[i].Deposit > vldtrs[j].Deposit
 	})
 
-	hash := sha256.New()
+	//Now let us compute logarithmic average deposit
+	var depAvg float64 = 0
+	var depAvgInt uint64 = 0
+	var valCount int64 = 0
 
-	var retVal [128]abciTypes.Validator
+	for _, v := range vldtrs {
+		if v.PauseCause > 0 {
+			continue
+		}
+
+		//Normalize the deposit (make it look approximately in ETR)
+		depAvg += math.Log(float64(v.Deposit) / DEPOSIT_NORMALIZATION)
+		valCount++
+
+		if valCount >= MAX_VALIDATORS {
+			break
+		}
+	}
+
+	if valCount > 0 {
+		//Average deposit
+		depAvg /= float64(valCount)
+		depAvgInt = uint64(math.Round(math.Exp(depAvg)))
+	}
+
+	hash := sha256.New()
+	bufferForUint64 := make([]byte, 8)
+
+	//Now let us form active validators list with their voting power
+	var retVal [MAX_VALIDATORS]abciTypes.Validator
 	slice := retVal[0:0]
 	for _, v := range vldtrs {
-		val := abciTypes.Ed25519Validator(v.PubKey, v.Deposit.Div(&v.Deposit, norm).Int64())
+		if v.PauseCause > 0 { //Skip paused validators
+			continue
+		}
+
+		//Compute power to ensure
+		// 1. Linear growth of power up to logarithmic average of deposit
+		// 2. Relatively fast (but slower than linear) growth a little beyond that average
+		// 3. Fast degradation of growth at large distance from that average (if more than average)
+		// 4. Maximum power can not exceed twice of the power of logarithmic average deposit
+
+		power := v.Deposit / DEPOSIT_NORMALIZATION
+		if power > depAvgInt {
+			power = depAvgInt + (power-depAvgInt)*depAvgInt/power
+		}
+
+		val := abciTypes.Ed25519Validator(v.PubKey, int64(power))
 		val.Address = crypto.Address(tmhash.Sum(v.PubKey))
 		hash.Write(v.PubKey)
-		hash.Write(v.Deposit.Bytes())
+
+		binary.BigEndian.PutUint64(bufferForUint64, power)
+		hash.Write(bufferForUint64)
 
 		slice = append(slice, val)
-		if len(slice) >= 128 {
+		if len(slice) >= MAX_VALIDATORS {
 			break
 		}
 	}
@@ -174,4 +229,43 @@ func getUpdatedValidators(compvals [][32]byte, pubkeys [][32]byte) ([]abciTypes.
 	hashBytes := make([]byte, sha256.Size)
 	return slice, hash.Sum(hashBytes[:0])
 
+}
+
+func getUpdatedValidators(newValidators []abciTypes.Validator, oldValidators []abciTypes.Validator) []abciTypes.Validator {
+	type MapItem struct {
+		v         *abciTypes.Validator
+		preserved bool
+	}
+
+	oldMap := make(map[string]MapItem)
+	for i, _ := range oldValidators {
+		v := &oldValidators[i]
+		oldMap[string(v.Address)] = MapItem{v: v}
+	}
+
+	var retVal [MAX_VALIDATORS]abciTypes.Validator
+	slice := retVal[0:0]
+
+	//Add changed or new validators
+	for _, v := range newValidators {
+		item, ok := oldMap[string(v.Address)]
+		if !ok || v.Power != item.v.Power { //The item is new or updated
+			slice = append(slice, v)
+		}
+		if ok {
+			//Flag an item that it made it into new set
+			oldMap[string(v.Address)] = MapItem{v: item.v, preserved: true}
+		}
+	}
+
+	//Now add removed validators
+	for _, v := range oldMap {
+		if !v.preserved {
+			var oldValidator = *v.v
+			oldValidator.Power = 0
+			slice = append(slice, oldValidator)
+		}
+	}
+
+	return slice
 }
