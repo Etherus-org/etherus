@@ -1,7 +1,71 @@
 pragma solidity ^0.5.0;
 
 
-contract Validators {
+/**
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
+ */
+contract Ownable {
+    address public owner;
+
+
+    event OwnershipRenounced(address indexed previousOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
+
+
+    /**
+     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+     * account.
+     */
+    constructor() public {
+        owner = msg.sender;
+    }
+
+    /**
+     * @dev Throws if called by any account other than the owner.
+     */
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    /**
+     * @dev Allows the current owner to relinquish control of the contract.
+     * @notice Renouncing to ownership will leave the contract without an owner.
+     * It will not be possible to call the functions with the `onlyOwner`
+     * modifier anymore.
+     */
+    function renounceOwnership() public onlyOwner {
+        emit OwnershipRenounced(owner);
+        owner = address(0);
+    }
+
+    /**
+     * @dev Allows the current owner to transfer control of the contract to a newOwner.
+     * @param _newOwner The address to transfer ownership to.
+     */
+    function transferOwnership(address _newOwner) public onlyOwner {
+        _transferOwnership(_newOwner);
+    }
+
+    /**
+     * @dev Transfers control of the contract to a newOwner.
+     * @param _newOwner The address to transfer ownership to.
+     */
+    function _transferOwnership(address _newOwner) internal {
+        require(_newOwner != address(0));
+        emit OwnershipTransferred(owner, _newOwner);
+        owner = _newOwner;
+    }
+}
+
+
+
+contract Validators is Ownable {
 
     event ValidatorUpdated(
         bytes32 vPub,
@@ -14,30 +78,36 @@ contract Validators {
     );
 
     struct Validator {
-        address payable nodeAddr;
-        uint96 deposit;
-        uint48 pauseBlockNumber;
-        uint8  pauseCause;
-        uint32 idx;
-        address payable receiver;
+        address payable nodeAddr; //Address of the node that can sign transactions
+        uint96 deposit;           //Node deposit
+        uint48 pauseBlockNumber;  //Block number at which the node was paused
+        uint8  pauseCause;        //The cause of pausement
+        uint32 idx;               //The index of validator public key
+        address payable receiver; //The address of the block reward receiver
+        uint96 punishValue;       //The fine that should be paid to unpause this node
     }
 
-    uint private constant MIN_DEPOSIT_INCREMENT = 10 ether;
-    uint private constant MIN_DEPOSIT = 2500 ether;
-    uint48 private constant DEPOSIT_LOCK_BLOCKS = 120;
+    uint public c_MIN_DEPOSIT_INCREMENT = 10 ether;
+    uint public c_MIN_DEPOSIT = 2500 ether;
+
+    //Число блоков, на которые блокируется нода перед выводом депозита
+    uint48 private constant DEPOSIT_LOCK_BLOCKS = 6000;
     //Число блоков, на которые блокируется нода, получившее предупреждение
-    uint48 private constant NODE_LOCK_BLOCKS = 1200;
+    uint48 private constant NODE_LOCK_BLOCKS_MAX = 100e12; //Меньше 2^47
 
     uint8 private constant PAUSE_NOT_PAUSED = 0;      //Активное состояние
     uint8 private constant PAUSE_CAUSE_VOLUNTARILY = 1;      //Добровольная пауза
-    uint8 private constant PAUSE_CAUSE_SEMI_VOLUNTARILY = 2; //Предупреждение
-    uint8 private constant PAUSE_CAUSE_PUNISHMENT = 3;       //Наказание
+    uint8 private constant PAUSE_CAUSE_UNTIL_BLOCK = 2; //Пауза до блока
+    uint8 private constant PAUSE_CAUSE_UNTIL_FINE = 3; //Пауза до выплаты штрафа
+    uint8 private constant PAUSE_CAUSE_PUNISHMENT = 4;       //Наказание
 
     mapping(bytes32 => Validator) validators;
     //Array of validators public keys
     bytes32[] validatorsPubKeys;
     //Array of compacted validators info
     bytes32[] validatorsCompacted;
+    //Flag who can punish - any node or just owner of the contract
+    bool anyoneCanPunish = false;
 
     function () external payable {
         revert(); //Should not pay directly
@@ -63,21 +133,25 @@ contract Validators {
         return recv;
     }
 
-    function pauseValidation(bytes32 vPub, bytes32 vFrom, uint8 cause) public {
+    function pauseValidation(bytes32 vPub, bytes32 vFrom, uint8 cause, uint96 punishValue) public {
         require(!isPaused(vPub) && hasDeposit(vPub), "Node should not be paused and should have deposit");
         require(cause >= PAUSE_CAUSE_VOLUNTARILY, "You should specify cause");
         require(getNodeAddr(vFrom) == msg.sender, "Node should correctly pass its validator public key");
+        require(cause == PAUSE_CAUSE_VOLUNTARILY || msg.sender == owner || anyoneCanPunish, "Wrong punisher");
+        require(cause != PAUSE_CAUSE_UNTIL_BLOCK || punishValue < NODE_LOCK_BLOCKS_MAX, "Wrong blocks number");
 
         if(vPub != vFrom){
             require(hasDeposit(vFrom) && !isPaused(vFrom), "You should not be paused to pause others");
             require(cause != PAUSE_CAUSE_VOLUNTARILY, "This pausing is not voluntary!");
         }else{
-            require(cause == PAUSE_CAUSE_VOLUNTARILY, "You are pausing valuntarily");
+            require(cause == PAUSE_CAUSE_VOLUNTARILY, "You are pausing voluntarily");
         }
 
         Validator storage v = validators[vPub];
+
         v.pauseBlockNumber = uint48(block.number);
         v.pauseCause = cause;
+        v.punishValue = punishValue;
 
         compactAndSave(v);
 
@@ -89,19 +163,37 @@ contract Validators {
 
         Validator storage v = validators[vPub];
         require(v.nodeAddr == msg.sender, "You can only unpause yourself");
-        require(v.pauseCause == PAUSE_CAUSE_VOLUNTARILY ||
-        v.pauseCause == PAUSE_CAUSE_SEMI_VOLUNTARILY, "You can only unpause voluntary paused node");
-        require(v.pauseCause != PAUSE_CAUSE_SEMI_VOLUNTARILY ||
-        v.pauseBlockNumber + NODE_LOCK_BLOCKS <= uint48(block.number), "You should wait some blocks before unpause");
+        uint8 pauseCause = v.pauseCause;
+        require(pauseCause == PAUSE_CAUSE_VOLUNTARILY ||
+                pauseCause == PAUSE_CAUSE_UNTIL_BLOCK ||
+                pauseCause == PAUSE_CAUSE_UNTIL_FINE, "You can not unpause from this state");
 
-        require(v.deposit >= MIN_DEPOSIT, "You can not unpause before deposit exceeds min value");
+        if(pauseCause == PAUSE_CAUSE_UNTIL_BLOCK)
+            require(uint256(v.pauseBlockNumber) + uint256(v.punishValue) <= block.number, "You should wait some blocks before unpause");
+
+        if(pauseCause == PAUSE_CAUSE_UNTIL_FINE){
+            require(v.deposit >= v.punishValue, "Deposit is not enough to cover the fine");
+            v.deposit -= v.punishValue;
+        }
+
+        require(v.deposit >= c_MIN_DEPOSIT, "You can not unpause before deposit exceeds min value");
 
         v.pauseBlockNumber = 0;
         v.pauseCause = 0;
+        v.punishValue = 0;
 
         compactAndSave(v);
 
         emit ValidatorUpdated(vPub, v.deposit);
+    }
+
+    function enablePunishers(bool all) onlyOwner public {
+        anyoneCanPunish = all;
+    }
+
+    function setDepositBounds(uint min_dep, uint min_dep_inc) onlyOwner public{
+        c_MIN_DEPOSIT = min_dep;
+        c_MIN_DEPOSIT_INCREMENT = min_dep_inc;
     }
 
     function withdraw(bytes32 vPub) public {
@@ -127,8 +219,8 @@ contract Validators {
     }
 
     function addInitialDeposit(bytes32 vPub, address payable nodeAddr, address payable receiver) public payable {
-        require(msg.value >= MIN_DEPOSIT_INCREMENT, "Too small value to add to the deposit");
-        
+        require(msg.value >= c_MIN_DEPOSIT_INCREMENT, "Too small value to add to the deposit");
+
         Validator storage v = validators[vPub];
         v.deposit += uint96(msg.value);
         if(v.nodeAddr == address(0)){
@@ -216,7 +308,7 @@ contract Validators {
             }
         }
     }
-    
+
     function getActiveCount() public view returns (uint count) {
         uint len = validatorsCompacted.length;
         for(uint i=0; i<len; ++i){
@@ -228,7 +320,7 @@ contract Validators {
     }
 
     function getValidator(bytes32 vPub) public view returns (address nodeAddr, uint96 deposit, uint48 pauseBlockNumber,
-        uint8  pauseCause, address receiver) {
+        uint8 pauseCause, uint96 punishValue, address receiver) {
 
         Validator storage v = validators[vPub];
 
@@ -237,6 +329,7 @@ contract Validators {
         pauseBlockNumber = v.pauseBlockNumber;
         pauseCause = v.pauseCause;
         receiver = v.receiver;
+        punishValue = v.punishValue;
     }
 
 }

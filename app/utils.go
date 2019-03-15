@@ -100,7 +100,7 @@ func (app *EthermintApplication) GetUpdatedValidators() abciTypes.ResponseEndBlo
 		*/
 
 		compvals, err := app.validators.Contract.GetActiveCompactedValidators(&bind.CallOpts{BlockNumber: prevBlockNumber})
-		if err == nil && len(compvals.ValidatorsCompacted) > 0 {
+		if err == nil && len(compvals.ValidatorsCompacted) >= 0 {
 			newValidators, newValsHash := getNewValidators(compvals.ValidatorsCompacted, compvals.ValidatorsPubKeys)
 
 			//We need to return new validators only in case they have changed.

@@ -4,14 +4,14 @@ package version
 const Major = 0
 
 // Minor version component of the current release
-const Minor = 5
+const Minor = 9
 
 // Fix version component of the current release
-const Fix = 3
+const Fix = 2
 
 var (
 	// Version is the full version string
-	Version = "0.5.3"
+	Version = "0.9.2"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse --short HEAD)"
 	GitCommit = "0000000"

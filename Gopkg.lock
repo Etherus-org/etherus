@@ -481,7 +481,6 @@
     "github.com/tendermint/tendermint/libs/log",
     "github.com/tendermint/tendermint/rpc/client",
     "github.com/tendermint/tendermint/rpc/core/types",
-    "golang.org/x/net/context",
     "gopkg.in/urfave/cli.v1",
   ]
   solver-name = "gps-cdcl"
