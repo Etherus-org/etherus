@@ -57,7 +57,7 @@
   name = "github.com/ethereum/go-ethereum"
   packages = ["."]
   pruneopts = ""
-  revision = "a68e3d4fb2672f55acce744abaabddb96b787de5"
+  revision = "ac7938bfcdeda51b76a90a0f95b2b51be9285959"
   source = "github.com/ya-enot/go-ethereum.git"
 
 [[projects]]
