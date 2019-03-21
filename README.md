@@ -1,4 +1,4 @@
-# Etherus
+# Etherus [![Build Status](https://travis-ci.org/Etherus-org/etherus.svg?branch=dukei-develop-f1.8.6)](https://travis-ci.org/Etherus-org/etherus)
 
 Ethereum powered by Tendermint consensus with dynamic validators
 
