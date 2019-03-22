@@ -11,7 +11,7 @@ const Fix = 2
 
 var (
 	// Version is the full version string
-	Version = "0.9.2"
+	Version = "0.9.3"
 
 	// GitCommit is set with --ldflags "-X main.gitCommit=$(git rev-parse --short HEAD)"
 	GitCommit = "0000000"
