@@ -4,7 +4,7 @@ Ethereum powered by Tendermint consensus with dynamic validators
 
 * You can try demo at https://etherus.org
 * Blockchain explorer: https://explorer.etherus.org
-* Wallet: https://wallet.etherus.org
+* Wallet: https://w.etherus.org
 * RPC endpoint: https://rpc-alpha.etherus.org
 * Tendermint P2P persistent peer: 26593a301734740cdf503ea8f4f8b218446360fc@127.0.0.1:26656
 * Alpha genesis.json: https://gist.github.com/dukei/1e8889b33430495cfbb9818ab8d09761
