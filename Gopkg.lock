@@ -53,12 +53,12 @@
 
 [[projects]]
   branch = "dukei-develop-f1.8.6"
-  digest = "1:3ace8104753a18528dda03b1c19751ea48c9b7a8343165d291575bb50b3899e7"
+  digest = "1:1d04509e533789bef49f5081ceb29dc1029c43958b19f886d6e9e03404b6b003"
   name = "github.com/ethereum/go-ethereum"
   packages = ["."]
   pruneopts = ""
-  revision = "ac7938bfcdeda51b76a90a0f95b2b51be9285959"
-  source = "github.com/ya-enot/go-ethereum.git"
+  revision = "bac19630c771897a30688b1b0522547396370003"
+  source = "github.com/Etherus-org/go-ethereum.git"
 
 [[projects]]
   digest = "1:fdf5169073fb0ad6dc12a70c249145e30f4058647bea25f0abd48b6d9f228a11"
@@ -194,12 +194,9 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:c1a04665f9613e082e1209cf288bf64f4068dcd6c87a64bf1c4ff006ad422ba0"
+  digest = "1:22d77456cc7b8f8392be23f08da95470f0f8383a670e448c20ae49d2f04a1459"
   name = "github.com/prometheus/client_golang"
-  packages = [
-    "prometheus",
-    "prometheus/promhttp",
-  ]
+  packages = ["prometheus"]
   pruneopts = "UT"
   revision = "ae27198cdd90bf12cd134ad79d1366a6cf49f632"
 
@@ -294,8 +291,8 @@
   version = "0.10.1"
 
 [[projects]]
-  branch = "ya-enot-v0.22.8"
-  digest = "1:1e658a08ad60e5d3718efd2ee11b171be8ec391697858e53cec140207809c0d6"
+  branch = "dukei-develop"
+  digest = "1:f8675fed4b7e367c0c38712e4eb089c7d59ec4b1e94ea5df9f2a611996fb7871"
   name = "github.com/tendermint/tendermint"
   packages = [
     "abci/client",
@@ -303,53 +300,33 @@
     "abci/example/kvstore",
     "abci/server",
     "abci/types",
-    "blockchain",
     "config",
-    "consensus",
-    "consensus/types",
     "crypto",
     "crypto/ed25519",
     "crypto/encoding/amino",
     "crypto/merkle",
     "crypto/secp256k1",
     "crypto/tmhash",
-    "evidence",
-    "libs/autofile",
     "libs/bech32",
-    "libs/clist",
     "libs/common",
     "libs/db",
-    "libs/events",
     "libs/flowrate",
     "libs/log",
     "libs/pubsub",
     "libs/pubsub/query",
-    "mempool",
-    "node",
     "p2p",
     "p2p/conn",
-    "p2p/pex",
     "p2p/upnp",
-    "privval",
     "proxy",
-    "rpc/client",
-    "rpc/core",
     "rpc/core/types",
-    "rpc/grpc",
-    "rpc/lib",
     "rpc/lib/client",
-    "rpc/lib/server",
     "rpc/lib/types",
     "state",
-    "state/txindex",
-    "state/txindex/kv",
-    "state/txindex/null",
     "types",
-    "version",
   ]
   pruneopts = "UT"
-  revision = "08815a06536f87b30a4f76a479cd225af2085019"
-  source = "github.com/ya-enot/tendermint"
+  revision = "0246f4b315ad2f67947541aed358be1c52d935d8"
+  source = "github.com/Etherus-org/tendermint"
 
 [[projects]]
   branch = "master"
@@ -368,7 +345,7 @@
   revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
 
 [[projects]]
-  digest = "1:d36f55a999540d29b6ea3c2ea29d71c76b1d9853fdcd3e5c5cb4836f2ba118f1"
+  digest = "1:68349a8c755738add0b9dcc25e5bfcbc11862520e0dfa9ebd32d8b489d7d4971"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -377,7 +354,6 @@
     "http2/hpack",
     "idna",
     "internal/timeseries",
-    "netutil",
     "trace",
   ]
   pruneopts = "UT"
@@ -472,15 +448,16 @@
     "github.com/ethereum/go-ethereum",
     "github.com/mattn/go-colorable",
     "github.com/stretchr/testify/assert",
-    "github.com/syndtr/goleveldb/leveldb/errors",
+    "github.com/tendermint/go-amino",
     "github.com/tendermint/tendermint/abci/server",
     "github.com/tendermint/tendermint/abci/types",
     "github.com/tendermint/tendermint/crypto",
     "github.com/tendermint/tendermint/crypto/tmhash",
     "github.com/tendermint/tendermint/libs/common",
     "github.com/tendermint/tendermint/libs/log",
-    "github.com/tendermint/tendermint/rpc/client",
     "github.com/tendermint/tendermint/rpc/core/types",
+    "github.com/tendermint/tendermint/rpc/lib/client",
+    "golang.org/x/net/context",
     "gopkg.in/urfave/cli.v1",
   ]
   solver-name = "gps-cdcl"

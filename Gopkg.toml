@@ -13,12 +13,12 @@ ignored = ["github.com/ethereum/go-ethereum/*"]
 
 [[constraint]]
   name = "github.com/tendermint/tendermint"
-  source = "github.com/ya-enot/tendermint"
-  branch = "ya-enot-v0.22.8"
+  source = "github.com/Etherus-org/tendermint"
+  branch = "dukei-develop"
  
 [[constraint]]
   name = "github.com/ethereum/go-ethereum"
-  source = "github.com/ya-enot/go-ethereum.git"
+  source = "github.com/Etherus-org/go-ethereum.git"
   branch = "dukei-develop-f1.8.6"
 
 [[constraint]]

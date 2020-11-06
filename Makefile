@@ -66,7 +66,7 @@ get_vendor_deps:
 	@rm -rf vendor/
 	@echo "--> Running dep"
 	@dep ensure -v
-	@cp -a $(DEPCACHEDIR)/sources/https---github.com-ya--enot-go--ethereum.git/vendor ./vendor/github.com/ethereum/go-ethereum/vendor
+	@cp -a $(DEPCACHEDIR)/sources/https---github.com-Etherus--org-go--ethereum.git/vendor ./vendor/github.com/ethereum/go-ethereum/vendor
 	@# ethereum/node.go:53:23: cannot use ctx (type *"github.com/ya-enot/etherus/vendor/gopkg.in/urfave/cli.v1".Context) as type *"github.com/ya-enot/etherus/vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave/cli.v1".Context in argument to utils.SetEthConfig
 	@rm -rf ./vendor/github.com/ethereum/go-ethereum/vendor/gopkg.in/urfave
 
